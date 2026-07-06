@@ -317,6 +317,80 @@
   }
   .highlights .link-row { align-items: flex-start; }
   .highlights .link-title { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+
+  .schedule {
+    background: var(--heat-soft);
+    border: 1.5px dashed var(--heat);
+    border-radius: var(--radius);
+    padding: 14px;
+    margin-bottom: 4px;
+  }
+  .schedule-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14.5px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .schedule-title .cat-count { margin-left: auto; }
+  .schedule-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .sched-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: var(--ink);
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 9px 10px;
+  }
+  .sched-row:hover, .sched-row:focus-visible {
+    background: var(--surface-2);
+    outline: none;
+  }
+  .sched-date {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: var(--heat);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.15;
+  }
+  .sched-day {
+    font-size: 17px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+  .sched-dow {
+    font-size: 9.5px;
+    opacity: 0.9;
+    letter-spacing: 0.02em;
+  }
+  .sched-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .sched-title {
+    font-size: 13.5px;
+    font-weight: 600;
+  }
+  .sched-time {
+    font-size: 11px;
+    color: var(--ink-faint);
+  }
   .link-row {
     display: flex;
     align-items: center;
@@ -1542,48 +1616,42 @@
       </div>
     </details>
 
-    <details class="cat" open style="--cat-color:var(--heat)">
-      <summary>
-        <span class="cat-dot"></span>
-        <span class="cat-title">今週の予定</span>
+    <div class="schedule">
+      <div class="schedule-title">
+        <span>📅 今週の予定</span>
         <span class="cat-count mono">7/6-7/12</span>
-        <span class="chevron"></span>
-      </summary>
-      <div class="cat-body">
-        <a class="link-row" target="_blank" rel="noopener noreferrer" href="https://www.google.com/calendar/event?eid=NmNwbWNjajM2NWlqNmJiMzY4bzNpYjlrNzVpamNiYjE3MWkzNmJiNWNwaGo2ZDlrNjRvamVkcG1jYyBraW5va28yMjJnQG0">
-          <span class="link-bar"></span>
-          <span class="link-text">
-            <div class="link-title">草津出張</div>
-            <div class="link-src mono">7/6(月) 8:00-22:00</div>
+      </div>
+      <div class="schedule-list">
+        <a class="sched-row" target="_blank" rel="noopener noreferrer" href="https://www.google.com/calendar/event?eid=NmNwbWNjajM2NWlqNmJiMzY4bzNpYjlrNzVpamNiYjE3MWkzNmJiNWNwaGo2ZDlrNjRvamVkcG1jYyBraW5va28yMjJnQG0">
+          <span class="sched-date"><span class="sched-day">6</span><span class="sched-dow">月</span></span>
+          <span class="sched-info">
+            <span class="sched-title">草津出張</span>
+            <span class="sched-time mono">8:00–22:00</span>
           </span>
-          <span class="go">›</span>
         </a>
-        <a class="link-row" target="_blank" rel="noopener noreferrer" href="https://www.google.com/calendar/event?eid=NnBpbWFvOWg2MWgzaWJiNjZ0aTM2YjlrNm9wamNiYjFjNWhqZ2JiNWNvczY2ZWIzYzlqNjRkajU2ZyBraW5va28yMjJnQG0">
-          <span class="link-bar"></span>
-          <span class="link-text">
-            <div class="link-title">柚奈の懇談</div>
-            <div class="link-src mono">7/9(木) 16:00-16:30</div>
+        <a class="sched-row" target="_blank" rel="noopener noreferrer" href="https://www.google.com/calendar/event?eid=NnBpbWFvOWg2MWgzaWJiNjZ0aTM2YjlrNm9wamNiYjFjNWhqZ2JiNWNvczY2ZWIzYzlqNjRkajU2ZyBraW5va28yMjJnQG0">
+          <span class="sched-date"><span class="sched-day">9</span><span class="sched-dow">木</span></span>
+          <span class="sched-info">
+            <span class="sched-title">柚奈の懇談</span>
+            <span class="sched-time mono">16:00–16:30</span>
           </span>
-          <span class="go">›</span>
         </a>
-        <a class="link-row" target="_blank" rel="noopener noreferrer" href="https://www.google.com/calendar/event?eid=NzVqM2FjajRjZ3EzYWJiMjY0cGo2YjlrYzhxNjJiOXBjOWkzNGJiMTcxaDNnZTFwNjRwbTJlOW42cyBraW5va28yMjJnQG0">
-          <span class="link-bar"></span>
-          <span class="link-text">
-            <div class="link-title">東京出張</div>
-            <div class="link-src mono">7/9(木) 20:00 〜 7/10(金) 23:00</div>
+        <a class="sched-row" target="_blank" rel="noopener noreferrer" href="https://www.google.com/calendar/event?eid=NzVqM2FjajRjZ3EzYWJiMjY0cGo2YjlrYzhxNjJiOXBjOWkzNGJiMTcxaDNnZTFwNjRwbTJlOW42cyBraW5va28yMjJnQG0">
+          <span class="sched-date"><span class="sched-day">9</span><span class="sched-dow">木</span></span>
+          <span class="sched-info">
+            <span class="sched-title">東京出張</span>
+            <span class="sched-time mono">7/9(木) 20:00 〜 7/10(金) 23:00</span>
           </span>
-          <span class="go">›</span>
         </a>
-        <a class="link-row" target="_blank" rel="noopener noreferrer" href="https://www.google.com/calendar/event?eid=YzRzajRvOWpjOG8zNmI5bTZzczYyYjlrYzVpMzBiYjE2a3E2Y2JiMWNwajNpb3BnNjBzNjRwMzU2NCBraW5va28yMjJnQG0">
-          <span class="link-bar"></span>
-          <span class="link-text">
-            <div class="link-title">アパホテル〈八丁堀 新富町〉宿泊</div>
-            <div class="link-src mono">7/9(木) 23:30 〜 7/10(金) 11:00</div>
+        <a class="sched-row" target="_blank" rel="noopener noreferrer" href="https://www.google.com/calendar/event?eid=YzRzajRvOWpjOG8zNmI5bTZzczYyYjlrYzVpMzBiYjE2a3E2Y2JiMWNwajNpb3BnNjBzNjRwMzU2NCBraW5va28yMjJnQG0">
+          <span class="sched-date"><span class="sched-day">9</span><span class="sched-dow">木</span></span>
+          <span class="sched-info">
+            <span class="sched-title">アパホテル〈八丁堀 新富町〉宿泊</span>
+            <span class="sched-time mono">7/9(木) 23:30 〜 7/10(金) 11:00</span>
           </span>
-          <span class="go">›</span>
         </a>
       </div>
-    </details>
+    </div>
 
   </main>
 
