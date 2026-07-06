@@ -481,6 +481,10 @@
     font-size: 12.5px;
     font-weight: 700;
     text-align: center;
+    font-family: inherit;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
   }
   .keep-btn:hover, .keep-btn:focus-visible {
     background: #FBBC0440;
@@ -1907,10 +1911,10 @@
         <span class="keep-icon">🚃</span>
         <span class="keep-text">経路検索（駅すぱあと）</span>
       </a>
-      <a class="keep-btn ramen-btn" target="_blank" rel="noopener noreferrer" href="https://map.yahoo.co.jp/search?q=%E3%83%A9%E3%83%BC%E3%83%A1%E3%83%B3">
+      <button type="button" class="keep-btn ramen-btn" onclick="openRamenSearch()">
         <span class="keep-icon">🍜</span>
         <span class="keep-text">近くのラーメン屋（Y!マップ）</span>
-      </a>
+      </button>
     </div>
 
   </main>
@@ -1946,6 +1950,21 @@
       url = 'https://www.google.com/search?q=' + encodeURIComponent(q3);
     }
     window.open(url, '_blank', 'noopener');
+  }
+
+  function openRamenSearch() {
+    var baseUrl = 'https://map.yahoo.co.jp/search?q=' + encodeURIComponent('ラーメン');
+    var win = window.open('', '_blank');
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function (pos) {
+        var url = baseUrl + '&lat=' + pos.coords.latitude + '&lon=' + pos.coords.longitude;
+        if (win) win.location.href = url;
+      }, function () {
+        if (win) win.location.href = baseUrl;
+      }, { timeout: 6000, maximumAge: 60000 });
+    } else if (win) {
+      win.location.href = baseUrl;
+    }
   }
 
   try {
