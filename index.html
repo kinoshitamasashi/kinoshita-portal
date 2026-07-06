@@ -318,6 +318,69 @@
   .highlights .link-row { align-items: flex-start; }
   .highlights .link-title { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
 
+  .weather {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .weather-temp-block {
+    flex-shrink: 0;
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    background: var(--weather-accent-soft, #2F86C91A);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    line-height: 1.1;
+  }
+  .weather-temp {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--weather-accent, #2F86C9);
+    font-variant-numeric: tabular-nums;
+  }
+  .weather-icon { font-size: 18px; }
+  .weather-body { flex: 1; min-width: 0; }
+  .weather-title-row {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    margin-bottom: 3px;
+  }
+  .weather-place {
+    font-size: 13.5px;
+    font-weight: 700;
+  }
+  .weather-fetched {
+    font-size: 9.5px;
+    color: var(--ink-faint);
+    margin-left: auto;
+  }
+  .weather-desc {
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-bottom: 3px;
+  }
+  .weather-range {
+    font-size: 10.5px;
+    color: var(--ink-faint);
+  }
+  .weather-link {
+    display: block;
+    font-size: 10.5px;
+    color: var(--weather-accent, #2F86C9);
+    text-decoration: none;
+    margin-top: 4px;
+    font-weight: 600;
+  }
+
   .schedule {
     background: var(--heat-soft);
     border: 1.5px dashed var(--heat);
@@ -482,6 +545,22 @@
   </details>
 
   <main>
+
+    <div class="weather">
+      <div class="weather-temp-block">
+        <span class="weather-icon">🌦️</span>
+        <span class="weather-temp">24℃</span>
+      </div>
+      <div class="weather-body">
+        <div class="weather-title-row">
+          <span class="weather-place">📍神戸市西区</span>
+          <span class="weather-fetched mono">取得: 07/06</span>
+        </div>
+        <div class="weather-desc">雨時々曇（雷注意報）</div>
+        <div class="weather-range mono">今日 21℃/24℃　明日 22℃/26℃・雨時々曇</div>
+        <a class="weather-link" target="_blank" rel="noopener noreferrer" href="https://tenki.jp/forecast/6/31/6310/28111/">tenki.jpで最新の天気を見る ›</a>
+      </div>
+    </div>
 
     <div class="highlights">
       <div class="highlights-title">
