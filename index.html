@@ -454,6 +454,26 @@
     font-size: 11px;
     color: var(--ink-faint);
   }
+
+  .keep-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+    background: #FBBC0426;
+    border: 1px solid #E8A90099;
+    color: var(--ink);
+    border-radius: var(--radius);
+    padding: 13px;
+    font-size: 13.5px;
+    font-weight: 700;
+  }
+  .keep-btn:hover, .keep-btn:focus-visible {
+    background: #FBBC0440;
+    outline: none;
+  }
+  .keep-icon { font-size: 16px; }
   .link-row {
     display: flex;
     align-items: center;
@@ -1747,6 +1767,11 @@
         </a>
       </div>
     </div>
+
+    <a class="keep-btn" target="_blank" rel="noopener noreferrer" href="https://keep.google.com/u/0/#NOTE">
+      <span class="keep-icon">📝</span>
+      <span class="keep-text">新しいメモを追加（Google Keep）</span>
+    </a>
 
   </main>
 
