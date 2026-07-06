@@ -100,7 +100,7 @@
     padding: clamp(14px, 4vw, 20px) clamp(16px, 5vw, 22px) 14px;
     overflow: hidden;
   }
-  header .clock, header .subtitle {
+  header h1, header .clock, header .subtitle {
     color: #F5F0E4;
     text-shadow: 0 1px 3px rgba(0,0,0,0.5);
   }
@@ -122,7 +122,7 @@
     position: relative;
     display: flex;
     align-items: baseline;
-    justify-content: flex-end;
+    justify-content: space-between;
     gap: 8px;
   }
   h1 {
@@ -552,6 +552,7 @@
       <circle cx="70" cy="70" r="56" stroke-width="2"></circle>
     </svg>
     <div class="header-row">
+      <h1>木下ポータル</h1>
       <span class="clock mono" id="clock"></span>
     </div>
     <p class="subtitle">業界動向・特許・食/生活トレンドをワンタップで確認</p>
