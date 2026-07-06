@@ -460,25 +460,39 @@
     color: var(--ink-faint);
   }
 
+  .tool-row {
+    display: flex;
+    gap: 8px;
+  }
   .keep-btn {
+    flex: 1;
+    min-width: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 7px;
     text-decoration: none;
     background: #FBBC0426;
     border: 1px solid #E8A90099;
     color: var(--ink);
     border-radius: var(--radius);
-    padding: 13px;
-    font-size: 13.5px;
+    padding: 13px 8px;
+    font-size: 12.5px;
     font-weight: 700;
+    text-align: center;
   }
   .keep-btn:hover, .keep-btn:focus-visible {
     background: #FBBC0440;
     outline: none;
   }
-  .keep-icon { font-size: 16px; }
+  .keep-icon { font-size: 16px; flex-shrink: 0; }
+  .ekispert-btn {
+    background: #2F86C926;
+    border: 1px solid #2F86C999;
+  }
+  .ekispert-btn:hover, .ekispert-btn:focus-visible {
+    background: #2F86C940;
+  }
   .link-row {
     display: flex;
     align-items: center;
@@ -1776,10 +1790,16 @@
       </div>
     </div>
 
-    <a class="keep-btn" target="_blank" rel="noopener noreferrer" href="https://keep.google.com/u/0/#NOTE">
-      <span class="keep-icon">📝</span>
-      <span class="keep-text">新しいメモを追加（Google Keep）</span>
-    </a>
+    <div class="tool-row">
+      <a class="keep-btn" target="_blank" rel="noopener noreferrer" href="https://keep.google.com/u/0/#NOTE">
+        <span class="keep-icon">📝</span>
+        <span class="keep-text">メモを追加（Keep）</span>
+      </a>
+      <a class="keep-btn ekispert-btn" target="_blank" rel="noopener noreferrer" href="https://roote.ekispert.net/">
+        <span class="keep-icon">🚃</span>
+        <span class="keep-text">経路検索（駅すぱあと）</span>
+      </a>
+    </div>
 
   </main>
 
