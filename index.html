@@ -462,11 +462,12 @@
 
   .tool-row {
     display: flex;
+    flex-wrap: wrap;
     gap: 8px;
   }
   .keep-btn {
-    flex: 1;
-    min-width: 0;
+    flex: 1 1 30%;
+    min-width: 104px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -492,6 +493,13 @@
   }
   .ekispert-btn:hover, .ekispert-btn:focus-visible {
     background: #2F86C940;
+  }
+  .ramen-btn {
+    background: #D9534F26;
+    border: 1px solid #D9534F99;
+  }
+  .ramen-btn:hover, .ramen-btn:focus-visible {
+    background: #D9534F40;
   }
   .link-row {
     display: flex;
@@ -1561,6 +1569,106 @@
       </div>
     </details>
 
+    <details class="cat" style="--cat-color:#8C3A4B">
+      <summary>
+        <span class="cat-dot"></span>
+        <span class="cat-title">書籍</span>
+        <span class="cat-count mono">BOOKS</span>
+        <span class="chevron"></span>
+      </summary>
+      <div class="cat-body">
+        <a class="link-row" target="_blank" rel="noopener noreferrer" href="https://daidaidiary.com/entry/business-book-sales-ranking">
+          <span class="link-bar"></span>
+          <span class="link-text">
+            <div class="link-title">【2026年4月最新】今売れているビジネス書ランキング12選｜お金・AI・働き方の人気本を厳選</div>
+            <div class="link-src mono">だいだい書店 ・ 2026/04</div>
+          </span>
+          <span class="go">›</span>
+        </a>
+        <a class="link-row" target="_blank" rel="noopener noreferrer" href="https://www.nikkei.com/telling/DGXZTS00021620Q6A610C2000000/">
+          <span class="link-bar"></span>
+          <span class="link-text">
+            <div class="link-title">日経の書評（経済書・経営書を中心に多彩なジャンルを毎週紹介）</div>
+            <div class="link-src mono">日本経済新聞 ・ 2026/06</div>
+          </span>
+          <span class="go">›</span>
+        </a>
+        <a class="link-row" target="_blank" rel="noopener noreferrer" href="https://www.maruzenjunkudo.co.jp/blogs/article/202601-03-1">
+          <span class="link-bar"></span>
+          <span class="link-text">
+            <div class="link-title">経営者が読むべきマネジメント本15選｜組織を導く「不朽の名著」と最新理論</div>
+            <div class="link-src mono">丸善ジュンク堂書店 ・ 2026/01</div>
+          </span>
+          <span class="go">›</span>
+        </a>
+        <a class="link-row" target="_blank" rel="noopener noreferrer" href="https://www.flierinc.com/column/grandprix2026">
+          <span class="link-bar"></span>
+          <span class="link-text">
+            <div class="link-title">「読者が選ぶビジネス書グランプリ2026」結果発表</div>
+            <div class="link-src mono">flier ・ 日付不明</div>
+          </span>
+          <span class="go">›</span>
+        </a>
+        <a class="link-row" target="_blank" rel="noopener noreferrer" href="https://www.toppoint.jp/bestbook/recent">
+          <span class="link-bar"></span>
+          <span class="link-text">
+            <div class="link-title">2025年下半期 TOPPOINT大賞（新刊ビジネス書の要約サービス）</div>
+            <div class="link-src mono">TOPPOINT ・ 日付不明</div>
+          </span>
+          <span class="go">›</span>
+        </a>
+        <a class="link-row" target="_blank" rel="noopener noreferrer" href="https://hyogo-roudou.jp/information/post-3199/">
+          <span class="link-bar"></span>
+          <span class="link-text">
+            <div class="link-title">「読者が選ぶビジネス書グランプリ2026」「2025年 年間ベストセラー」が発表されました</div>
+            <div class="link-src mono">ひょうご労働図書館 ・ 日付不明</div>
+          </span>
+          <span class="go">›</span>
+        </a>
+        <a class="link-row" target="_blank" rel="noopener noreferrer" href="https://business-book.jp/">
+          <span class="link-bar"></span>
+          <span class="link-text">
+            <div class="link-title">読者が選ぶビジネス書グランプリ 公式サイト<span class="badge-new">サイト</span></div>
+            <div class="link-src mono">business-book.jp</div>
+          </span>
+          <span class="go">›</span>
+        </a>
+        <p class="subhead mono">🔍 もっと調べる（ライブ検索）</p>
+        <a class="link-row" target="_blank" rel="noopener noreferrer" href="https://news.google.com/search?q=%E3%83%93%E3%82%B8%E3%83%8D%E3%82%B9%E6%9B%B8%20%E6%96%B0%E5%88%8A&hl=ja&gl=JP&ceid=JP:ja">
+          <span class="link-bar"></span>
+          <span class="link-text">
+            <div class="link-title">「ビジネス書 新刊」最新ニュース</div>
+            <div class="link-src mono">news.google.com</div>
+          </span>
+          <span class="go">›</span>
+        </a>
+        <a class="link-row" target="_blank" rel="noopener noreferrer" href="https://www.amazon.co.jp/gp/bestsellers/books/466282">
+          <span class="link-bar"></span>
+          <span class="link-text">
+            <div class="link-title">Amazon ビジネス・経済書 ベストセラー<span class="badge-new">サイト</span></div>
+            <div class="link-src mono">amazon.co.jp</div>
+          </span>
+          <span class="go">›</span>
+        </a>
+        <a class="link-row" target="_blank" rel="noopener noreferrer" href="https://books.rakuten.co.jp/ranking/hourly/001006/">
+          <span class="link-bar"></span>
+          <span class="link-text">
+            <div class="link-title">楽天ブックス ビジネス・経済・就職ランキング<span class="badge-new">サイト</span></div>
+            <div class="link-src mono">books.rakuten.co.jp</div>
+          </span>
+          <span class="go">›</span>
+        </a>
+        <a class="link-row" target="_blank" rel="noopener noreferrer" href="https://www.toppoint.jp/">
+          <span class="link-bar"></span>
+          <span class="link-text">
+            <div class="link-title">TOPPOINT（ビジネス書要約サービス）<span class="badge-new">サイト</span></div>
+            <div class="link-src mono">toppoint.jp</div>
+          </span>
+          <span class="go">›</span>
+        </a>
+      </div>
+    </details>
+
     <details class="cat" style="--cat-color:#7A5FB5">
       <summary>
         <span class="cat-dot"></span>
@@ -1798,6 +1906,10 @@
       <a class="keep-btn ekispert-btn" target="_blank" rel="noopener noreferrer" href="https://roote.ekispert.net/">
         <span class="keep-icon">🚃</span>
         <span class="keep-text">経路検索（駅すぱあと）</span>
+      </a>
+      <a class="keep-btn ramen-btn" target="_blank" rel="noopener noreferrer" href="https://www.google.com/maps/search/?api=1&query=%E3%83%A9%E3%83%BC%E3%83%A1%E3%83%B3">
+        <span class="keep-icon">🍜</span>
+        <span class="keep-text">近くのラーメン屋（Maps）</span>
       </a>
     </div>
 
