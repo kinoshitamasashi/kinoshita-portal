@@ -463,10 +463,11 @@
   .tool-row {
     display: flex;
     flex-wrap: wrap;
+    align-items: stretch;
     gap: 8px;
   }
   .keep-btn {
-    flex: 1 1 30%;
+    flex: 1 1 40%;
     min-width: 104px;
     display: flex;
     align-items: center;
@@ -498,12 +499,26 @@
   .ekispert-btn:hover, .ekispert-btn:focus-visible {
     background: #2F86C940;
   }
-  .ramen-btn {
-    background: #D9534F26;
-    border: 1px solid #D9534F99;
+  .ramen-icon-btn {
+    flex-shrink: 0;
+    width: 52px;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    text-decoration: none;
+    background: transparent;
+    border: none;
+    border-radius: 50%;
+    line-height: 1;
   }
-  .ramen-btn:hover, .ramen-btn:focus-visible {
-    background: #D9534F40;
+  .ramen-icon-btn:hover, .ramen-icon-btn:focus-visible {
+    background: #D9534F1F;
+    outline: none;
+  }
+  .ramen-icon-btn:active {
+    background: #D9534F33;
   }
   .link-row {
     display: flex;
@@ -1911,10 +1926,7 @@
         <span class="keep-icon">🚃</span>
         <span class="keep-text">経路検索（駅すぱあと）</span>
       </a>
-      <button type="button" class="keep-btn ramen-btn" onclick="openRamenSearch()">
-        <span class="keep-icon">🍜</span>
-        <span class="keep-text">近くのラーメン屋（Y!マップ）</span>
-      </button>
+      <a class="ramen-icon-btn" target="_blank" rel="noopener noreferrer" href="https://www.google.com/maps/search/?api=1&query=%E3%83%A9%E3%83%BC%E3%83%A1%E3%83%B3" aria-label="近くのラーメン屋を検索（Googleマップ）">🍜</a>
     </div>
 
   </main>
@@ -1950,21 +1962,6 @@
       url = 'https://www.google.com/search?q=' + encodeURIComponent(q3);
     }
     window.open(url, '_blank', 'noopener');
-  }
-
-  function openRamenSearch() {
-    var baseUrl = 'https://map.yahoo.co.jp/search?q=' + encodeURIComponent('ラーメン');
-    var win = window.open('', '_blank');
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function (pos) {
-        var url = baseUrl + '&lat=' + pos.coords.latitude + '&lon=' + pos.coords.longitude;
-        if (win) win.location.href = url;
-      }, function () {
-        if (win) win.location.href = baseUrl;
-      }, { timeout: 6000, maximumAge: 60000 });
-    } else if (win) {
-      win.location.href = baseUrl;
-    }
   }
 
   try {
