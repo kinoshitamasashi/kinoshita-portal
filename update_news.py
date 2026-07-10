@@ -1,78 +1,31 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Fetches curated RSS feeds and refreshes the news categories in index.html.
-Run daily. No web search / no LLM judgment required - pure feed fetch + sort.
+Splices pre-fetched RSS items (as JSON) into the news categories in index.html.
+
+This script does NOT make any network requests itself. Outbound network calls
+from the cloud sandbox's Bash are blocked by policy, so feed fetching must be
+done via the WebFetch tool (Anthropic-mediated) BEFORE running this script.
+
+Expected input JSON shape (see feed_data.json):
+{
+  "appliance": [{"title": "...", "link": "...", "date": "2026-07-11"}, ...],
+  "food":      [...],
+  "ai":        [...],
+  "magazine":  [...]
+}
+
+Usage:
+    python3 update_news.py index.html feed_data.json
 """
+import json
 import re
 import sys
-import urllib.request
-from datetime import datetime, timezone
-from email.utils import parsedate_to_datetime
+from datetime import datetime
 from html import escape
-from xml.etree import ElementTree as ET
-
-FEEDS = [
-    {"name": "家電Watch", "url": "https://kaden.watch.impress.co.jp/data/rss/1.0/kdw/feed.rdf", "cat": "appliance"},
-    {"name": "ITmedia AI+", "url": "https://rss.itmedia.co.jp/rss/2.0/aiplus.xml", "cat": "ai"},
-    {"name": "日経xTECH", "url": "https://xtech.nikkei.com/rss/index.rdf", "cat": "magazine"},
-    {"name": "東洋経済オンライン", "url": "http://toyokeizai.net/list/feed/rss", "cat": "magazine"},
-    {"name": "日経ビジネス電子版", "url": "https://business.nikkei.com/rss/sns/nb.rdf", "cat": "magazine"},
-    {"name": "ダイヤモンド・オンライン", "url": "https://diamond.jp/list/feed/rss/dol", "cat": "magazine"},
-    {"name": "住宅産業新聞", "url": "https://www.housenews.jp/feed", "cat": "food"},
-    {"name": "Food Tech Media Japan", "url": "https://foodtech-japan.com/feed/", "cat": "food"},
-]
 
 TOP_N = {"appliance": 15, "ai": 15, "magazine": 18, "food": 15}
 COLOR_FOR_CAT = {"appliance": "#2C6E9E", "food": "#3D8B5F", "ai": "#1E8F86", "magazine": "#B08A2E"}
-
-UA = "Mozilla/5.0 (compatible; kinoshita-portal-bot/1.0)"
-
-
-def local(tag):
-    return tag.split('}')[-1] if '}' in tag else tag
-
-
-def parse_date(s):
-    if not s:
-        return None
-    s = s.strip()
-    try:
-        return parsedate_to_datetime(s)
-    except Exception:
-        pass
-    try:
-        return datetime.fromisoformat(s)
-    except Exception:
-        pass
-    return None
-
-
-def fetch_items(feed):
-    req = urllib.request.Request(feed["url"], headers={"User-Agent": UA})
-    with urllib.request.urlopen(req, timeout=20) as resp:
-        raw = resp.read()
-    root = ET.fromstring(raw)
-    items = []
-    for item in root.iter():
-        if local(item.tag) != 'item':
-            continue
-        title = link = date_raw = None
-        for child in item:
-            ln = local(child.tag)
-            if ln == 'title' and title is None:
-                title = (child.text or '').strip()
-            elif ln == 'link' and link is None:
-                link = (child.text or '').strip()
-            elif ln in ('pubDate', 'date') and date_raw is None:
-                date_raw = (child.text or '').strip()
-        dt = parse_date(date_raw)
-        if not (title and link and dt):
-            continue
-        if dt.tzinfo is None:
-            dt = dt.replace(tzinfo=timezone.utc)
-        items.append({"title": title, "link": link, "date": dt, "source": feed["name"]})
-    return items
 
 
 def build_rows(items):
@@ -80,7 +33,7 @@ def build_rows(items):
     for it in items:
         title = escape(it["title"])
         source = escape(it["source"])
-        date_str = it["date"].strftime("%Y/%m/%d")
+        date_str = it["date"].replace("-", "/")
         url = escape(it["link"], quote=True)
         rows.append(
             f'        <a class="link-row" target="_blank" rel="noopener noreferrer" href="{url}">\n'
@@ -119,30 +72,23 @@ def replace_category_body(html, color_hex, new_rows):
     body_idx = html.find(body_tag, s)
     body_tag_end = body_idx + len(body_tag)
     close_end = find_matching_div_end(html, body_tag_end)
+    if close_end < 0:
+        raise RuntimeError(f"matching close div not found for {color_hex}")
     close_start = close_end - len('</div>')
     return html[:body_tag_end] + '\n' + new_rows + '      ' + html[close_start:]
 
 
-def main(html_path):
+def main(html_path, data_path):
     with open(html_path, 'r', encoding='utf-8') as f:
         html = f.read()
-
-    by_cat = {"appliance": [], "ai": [], "magazine": [], "food": []}
-    for feed in FEEDS:
-        try:
-            items = fetch_items(feed)
-            by_cat[feed["cat"]].extend(items)
-            print(f'{feed["name"]}: {len(items)} items OK', file=sys.stderr)
-        except Exception as e:
-            print(f'{feed["name"]}: FAILED {e}', file=sys.stderr)
-
-    for cat in by_cat:
-        by_cat[cat].sort(key=lambda x: x["date"], reverse=True)
-        by_cat[cat] = by_cat[cat][:TOP_N[cat]]
-        print(f'{cat}: final {len(by_cat[cat])} items', file=sys.stderr)
+    with open(data_path, 'r', encoding='utf-8-sig') as f:
+        data = json.load(f)
 
     for cat, color in COLOR_FOR_CAT.items():
-        rows = build_rows(by_cat[cat])
+        items = data.get(cat, [])[:TOP_N[cat]]
+        if not items:
+            raise RuntimeError(f"no items provided for category '{cat}' - refusing to wipe existing content")
+        rows = build_rows(items)
         html = replace_category_body(html, color, rows)
 
     today = datetime.now().strftime("%Y/%m/%d")
@@ -154,5 +100,7 @@ def main(html_path):
 
 
 if __name__ == '__main__':
-    path = sys.argv[1] if len(sys.argv) > 1 else 'index.html'
-    main(path)
+    if len(sys.argv) < 3:
+        print("Usage: python3 update_news.py <index.html> <feed_data.json>", file=sys.stderr)
+        sys.exit(1)
+    main(sys.argv[1], sys.argv[2])
