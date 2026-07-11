@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 Fetches the curated RSS/RDF feeds directly over HTTP and writes feed_data.json
@@ -24,9 +24,10 @@ FEEDS = [
     {"url": "https://www.housenews.jp/feed", "source": "住宅産業新聞", "cat": "food"},
     {"url": "https://toyokeizai.net/list/feed/rss", "source": "東洋経済オンライン", "cat": "magazine"},
     {"url": "https://diamond.jp/list/feed/rss/dol", "source": "ダイヤモンド・オンライン", "cat": "magazine"},
+    {"url": "https://gekirock.com/news/index.xml", "source": "激ロック", "cat": "rock"},
 ]
 
-TOP_N = {"appliance": 15, "ai": 15, "magazine": 18, "food": 15}
+TOP_N = {"appliance": 15, "ai": 15, "magazine": 18, "food": 15, "rock": 15}
 
 
 def local_name(tag):
@@ -82,7 +83,7 @@ def item_fields(item):
 
 
 def main(out_path):
-    result = {"appliance": [], "ai": [], "magazine": [], "food": []}
+    result = {"appliance": [], "ai": [], "magazine": [], "food": [], "rock": []}
     errors = []
 
     for feed in FEEDS:
