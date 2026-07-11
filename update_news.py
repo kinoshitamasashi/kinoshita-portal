@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 Splices pre-fetched RSS items (as JSON) into the news categories in index.html.
@@ -24,8 +24,8 @@ import sys
 from datetime import datetime
 from html import escape
 
-TOP_N = {"appliance": 15, "ai": 15, "magazine": 18, "food": 15}
-COLOR_FOR_CAT = {"appliance": "#2C6E9E", "food": "#3D8B5F", "ai": "#1E8F86", "magazine": "#B08A2E"}
+TOP_N = {"appliance": 15, "ai": 15, "magazine": 18, "food": 15, "rock": 15}
+COLOR_FOR_CAT = {"appliance": "#2C6E9E", "food": "#3D8B5F", "ai": "#1E8F86", "magazine": "#B08A2E", "rock": "#8B2635"}
 
 
 def build_rows(items):
