@@ -9,13 +9,17 @@ Usage:
     python3 fetch_feeds.py feed_data.json
 """
 import json
+import re
 import sys
+import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 from email.utils import parsedate_to_datetime
 
 UA = "Mozilla/5.0 (compatible; KinoshitaPortalBot/1.0)"
+
+IH_QUERY = "IHクッキングヒーター OR 電磁調理器 OR IHコンロ OR IH調理器"
 
 FEEDS = [
     {"url": "https://kaden.watch.impress.co.jp/data/rss/1.0/kdw/feed.rdf", "source": "家電Watch", "cat": "appliance"},
@@ -25,9 +29,14 @@ FEEDS = [
     {"url": "https://toyokeizai.net/list/feed/rss", "source": "東洋経済オンライン", "cat": "magazine"},
     {"url": "https://diamond.jp/list/feed/rss/dol", "source": "ダイヤモンド・オンライン", "cat": "magazine"},
     {"url": "https://gekirock.com/news/index.xml", "source": "激ロック", "cat": "rock"},
+    {
+        "url": "https://news.google.com/rss/search?q=" + urllib.parse.quote(IH_QUERY) + "&hl=ja&gl=JP&ceid=JP:ja",
+        "source": None,
+        "cat": "ih_focus",
+    },
 ]
 
-TOP_N = {"appliance": 15, "ai": 15, "magazine": 18, "food": 15, "rock": 15}
+TOP_N = {"appliance": 15, "ai": 15, "magazine": 18, "food": 15, "rock": 15, "ih_focus": 12}
 
 
 def local_name(tag):
@@ -72,18 +81,22 @@ def extract_items(root):
 
 
 def item_fields(item):
-    title, link = None, None
+    title, link, source = None, None, None
     for child in item:
         name = local_name(child.tag)
         if name == "title" and title is None:
             title = (child.text or "").strip()
         elif name == "link" and link is None:
             link = (child.text or "").strip()
-    return title, link
+        elif name == "source" and source is None:
+            source = (child.text or "").strip()
+    if title and source:
+        title = re.sub(r'\s*-\s*' + re.escape(source) + r'$', '', title).strip()
+    return title, link, source
 
 
 def main(out_path):
-    result = {"appliance": [], "ai": [], "magazine": [], "food": [], "rock": []}
+    result = {"appliance": [], "ai": [], "magazine": [], "food": [], "rock": [], "ih_focus": []}
     errors = []
 
     for feed in FEEDS:
@@ -91,25 +104,32 @@ def main(out_path):
             root = fetch_feed(feed["url"])
             items = extract_items(root)
             for item in items:
-                title, link = item_fields(item)
+                title, link, item_source = item_fields(item)
                 dt = parse_date(item)
-                if not title or not link or dt is None:
+                source = feed["source"] or item_source
+                if not title or not link or dt is None or not source:
                     continue
                 result[feed["cat"]].append({
                     "title": title,
                     "link": link,
                     "date": dt.strftime("%Y-%m-%d"),
-                    "source": feed["source"],
+                    "source": source,
                     "_sort": dt,
                 })
         except Exception as e:
-            errors.append(f"{feed['source']} ({feed['url']}): {e}")
+            errors.append(f"{feed['source'] or feed['cat']} ({feed['url']}): {e}")
 
     for cat in result:
         result[cat].sort(key=lambda x: x["_sort"], reverse=True)
+        seen_titles = set()
+        deduped = []
         for it in result[cat]:
             del it["_sort"]
-        result[cat] = result[cat][:TOP_N[cat]]
+            if it["title"] in seen_titles:
+                continue
+            seen_titles.add(it["title"])
+            deduped.append(it)
+        result[cat] = deduped[:TOP_N[cat]]
         if not result[cat]:
             errors.append(f"category '{cat}' ended up empty")
 
