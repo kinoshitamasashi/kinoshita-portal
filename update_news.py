@@ -28,6 +28,15 @@ JST = timezone(timedelta(hours=9))
 
 TOP_N = {"appliance": 15, "ai": 15, "magazine": 18, "food": 15, "rock": 15}
 COLOR_FOR_CAT = {"appliance": "#2C6E9E", "food": "#3D8B5F", "ai": "#1E8F86", "magazine": "#B08A2E", "rock": "#8B2635"}
+CATEGORY_LABEL = {
+    "appliance": "業界ニュース",
+    "food": "食・生活",
+    "ai": "AI関連",
+    "magazine": "雑誌記事・ビジネス",
+    "rock": "ロック・メタル",
+}
+HIGHLIGHTS_PER_CAT = 2
+HIGHLIGHTS_TOTAL = 8
 
 
 def build_rows(items):
@@ -48,6 +57,49 @@ def build_rows(items):
             f'        </a>\n'
         )
     return ''.join(rows)
+
+
+def build_highlight_rows(data):
+    candidates = []
+    for cat, color in COLOR_FOR_CAT.items():
+        for it in data.get(cat, [])[:HIGHLIGHTS_PER_CAT]:
+            candidates.append((it, cat, color))
+    candidates.sort(key=lambda x: x[0]["date"], reverse=True)
+    candidates = candidates[:HIGHLIGHTS_TOTAL]
+
+    rows = []
+    for it, cat, color in candidates:
+        title = escape(it["title"])
+        source = escape(it["source"])
+        date_str = it["date"].replace("-", "/")
+        url = escape(it["link"], quote=True)
+        label = CATEGORY_LABEL[cat]
+        rows.append(
+            f'        <a class="link-row" target="_blank" rel="noopener noreferrer" href="{url}">\n'
+            f'          <span class="link-bar" style="--cat-color:{color}"></span>\n'
+            f'          <span class="link-text">\n'
+            f'            <div class="link-title"><span class="tag" style="--tag-color:{color}">{label}</span>{title}</div>\n'
+            f'            <div class="link-src mono">{source} ・ {date_str}</div>\n'
+            f'          </span>\n'
+            f'          <span class="go">›</span>\n'
+            f'        </a>\n'
+        )
+    return ''.join(rows)
+
+
+def replace_highlights_body(html, new_rows):
+    anchor = '<div class="highlights">'
+    s = html.find(anchor)
+    if s < 0:
+        raise RuntimeError("highlights anchor not found")
+    body_tag = '<div class="cat-body">'
+    body_idx = html.find(body_tag, s)
+    body_tag_end = body_idx + len(body_tag)
+    close_end = find_matching_div_end(html, body_tag_end)
+    if close_end < 0:
+        raise RuntimeError("matching close div not found for highlights")
+    close_start = close_end - len('</div>')
+    return html[:body_tag_end] + '\n' + new_rows + '      ' + html[close_start:]
 
 
 def find_matching_div_end(html, after_open_div_tag_end):
@@ -92,6 +144,11 @@ def main(html_path, data_path):
             raise RuntimeError(f"no items provided for category '{cat}' - refusing to wipe existing content")
         rows = build_rows(items)
         html = replace_category_body(html, color, rows)
+
+    highlight_rows = build_highlight_rows(data)
+    if not highlight_rows:
+        raise RuntimeError("no highlight items generated - refusing to wipe existing content")
+    html = replace_highlights_body(html, highlight_rows)
 
     timestamp = datetime.now(timezone.utc).astimezone(JST).strftime("%Y/%m/%d %H:%M")
     html = re.sub(r'記事一覧 最終更新: \d{4}/\d{2}/\d{2}(?: \d{2}:\d{2})?', f'記事一覧 最終更新: {timestamp}', html)
