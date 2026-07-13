@@ -26,9 +26,10 @@ from html import escape
 
 JST = timezone(timedelta(hours=9))
 
-TOP_N = {"appliance": 15, "ai": 15, "magazine": 18, "food": 15, "rock": 15}
-COLOR_FOR_CAT = {"appliance": "#2C6E9E", "food": "#3D8B5F", "ai": "#1E8F86", "magazine": "#B08A2E", "rock": "#8B2635"}
+TOP_N = {"appliance": 15, "ai": 15, "magazine": 18, "food": 15, "rock": 15, "ih_focus": 12}
+COLOR_FOR_CAT = {"ih_focus": "#D9560E", "appliance": "#2C6E9E", "food": "#3D8B5F", "ai": "#1E8F86", "magazine": "#B08A2E", "rock": "#8B2635"}
 CATEGORY_LABEL = {
+    "ih_focus": "IH・調理家電",
     "appliance": "業界ニュース",
     "food": "食・生活",
     "ai": "AI関連",
