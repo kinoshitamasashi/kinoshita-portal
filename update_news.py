@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 Splices pre-fetched RSS items (as JSON) into the news categories in index.html.
@@ -21,8 +21,10 @@ Usage:
 import json
 import re
 import sys
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from html import escape
+
+JST = timezone(timedelta(hours=9))
 
 TOP_N = {"appliance": 15, "ai": 15, "magazine": 18, "food": 15, "rock": 15}
 COLOR_FOR_CAT = {"appliance": "#2C6E9E", "food": "#3D8B5F", "ai": "#1E8F86", "magazine": "#B08A2E", "rock": "#8B2635"}
@@ -91,8 +93,8 @@ def main(html_path, data_path):
         rows = build_rows(items)
         html = replace_category_body(html, color, rows)
 
-    today = datetime.now().strftime("%Y/%m/%d")
-    html = re.sub(r'記事一覧 最終更新: \d{4}/\d{2}/\d{2}', f'記事一覧 最終更新: {today}', html)
+    timestamp = datetime.now(timezone.utc).astimezone(JST).strftime("%Y/%m/%d %H:%M")
+    html = re.sub(r'記事一覧 最終更新: \d{4}/\d{2}/\d{2}(?: \d{2}:\d{2})?', f'記事一覧 最終更新: {timestamp}', html)
 
     with open(html_path, 'w', encoding='utf-8') as f:
         f.write(html)
