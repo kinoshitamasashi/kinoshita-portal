@@ -20,6 +20,14 @@ from email.utils import parsedate_to_datetime
 UA = "Mozilla/5.0 (compatible; KinoshitaPortalBot/1.0)"
 
 IH_QUERY = "IHクッキングヒーター OR 電磁調理器 OR IHコンロ OR IH調理器"
+KITCHEN_QUERY = "システムキッチン OR Miele OR タカラスタンダード OR クリナップ"
+AI_QUERY = "ChatGPT OR Claude OR Copilot"
+FOODTECH_QUERY = "フードテック OR 自動調理"
+
+
+def gnews(query):
+    return "https://news.google.com/rss/search?q=" + urllib.parse.quote(query) + "&hl=ja&gl=JP&ceid=JP:ja"
+
 
 FEEDS = [
     {"url": "https://kaden.watch.impress.co.jp/data/rss/1.0/kdw/feed.rdf", "source": "家電Watch", "cat": "appliance"},
@@ -29,11 +37,10 @@ FEEDS = [
     {"url": "https://toyokeizai.net/list/feed/rss", "source": "東洋経済オンライン", "cat": "magazine"},
     {"url": "https://diamond.jp/list/feed/rss/dol", "source": "ダイヤモンド・オンライン", "cat": "magazine"},
     {"url": "https://gekirock.com/news/index.xml", "source": "激ロック", "cat": "rock"},
-    {
-        "url": "https://news.google.com/rss/search?q=" + urllib.parse.quote(IH_QUERY) + "&hl=ja&gl=JP&ceid=JP:ja",
-        "source": None,
-        "cat": "ih_focus",
-    },
+    {"url": gnews(IH_QUERY), "source": None, "cat": "ih_focus"},
+    {"url": gnews(KITCHEN_QUERY), "source": None, "cat": "food"},
+    {"url": gnews(AI_QUERY), "source": None, "cat": "ai"},
+    {"url": gnews(FOODTECH_QUERY), "source": None, "cat": "food"},
 ]
 
 TOP_N = {"appliance": 15, "ai": 15, "magazine": 18, "food": 15, "rock": 15, "ih_focus": 12}
