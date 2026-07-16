@@ -1,0 +1,47 @@
+name: Daily weather update
+
+on:
+  schedule:
+    - cron: "20 21 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Fetch weather
+        run: python fetch_weather.py weather_data.json
+
+      - name: Splice into index.html
+        run: python update_weather.py index.html weather_data.json
+
+      - name: Commit and push if changed
+        run: |
+          rm -f weather_data.json
+          if git diff --quiet -- index.html; then
+            echo "No changes."
+            exit 0
+          fi
+          git config user.name "kinoshita-portal-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add index.html
+          git commit -m "Update weather $(date -u +%Y-%m-%d)"
+          for i in 1 2 3 4 5; do
+            git fetch origin main
+            git rebase origin/main
+            if git push; then
+              exit 0
+            fi
+            echo "Push attempt $i failed, retrying..."
+            sleep $((RANDOM % 8 + 2))
+          done
+          exit 1
