@@ -72,12 +72,6 @@ BIGNEWS_GLOBAL_QUERY = (
     "(家電 OR 住宅設備 OR 白物家電) "
     "(買収 OR 経営統合 OR 合併 OR M&A)"
 )
-BIGNEWS_PRODUCT_QUERY = (
-    "(Panasonic OR 日立 OR 東芝 OR シャープ OR 三菱電機 OR Samsung OR LG電子 OR Haier OR ハイアール OR Midea OR 美的) "
-    "(家電 OR 白物家電 OR キッチン家電 OR 冷蔵庫 OR 洗濯機 OR エアコン OR IHクッキングヒーター) "
-    "(新製品発表 OR 世界初 OR 業界初)"
-)
-
 
 def gnews(query):
     return "https://news.google.com/rss/search?q=" + urllib.parse.quote(query) + "&hl=ja&gl=JP&ceid=JP:ja"
@@ -98,7 +92,6 @@ FEEDS = [
     {"url": gnews(FOODTECH_QUERY), "source": None, "cat": "food"},
     {"url": gnews(BIGNEWS_QUERY), "source": None, "cat": "big_news"},
     {"url": gnews(BIGNEWS_GLOBAL_QUERY), "source": None, "cat": "big_news"},
-    {"url": gnews(BIGNEWS_PRODUCT_QUERY), "source": None, "cat": "big_news"},
 ]
 
 TOP_N = {"appliance": 15, "ai": 15, "magazine": 18, "food": 15, "rock": 15, "ih_focus": 16, "big_news": 35}
