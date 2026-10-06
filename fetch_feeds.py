@@ -46,6 +46,7 @@ def is_paywalled(source):
 UA = "Mozilla/5.0 (compatible; KinoshitaPortalBot/1.0)"
 
 IH_QUERY = "IHクッキングヒーター OR 電磁調理器 OR IHコンロ OR IH調理器"
+IOT_QUERY = "IoT家電 OR スマート家電 OR コネクテッド家電 OR スマートキッチン"
 KITCHEN_QUERY = "システムキッチン OR Miele OR タカラスタンダード OR クリナップ"
 AI_QUERY = "ChatGPT OR Claude OR Copilot"
 FOODTECH_QUERY = "フードテック OR 自動調理 OR 調理家電"
@@ -68,13 +69,14 @@ FEEDS = [
     {"url": "https://diamond.jp/list/feed/rss/dol", "source": "ダイヤモンド・オンライン", "cat": "magazine"},
     {"url": "https://gekirock.com/news/index.xml", "source": "激ロック", "cat": "rock"},
     {"url": gnews(IH_QUERY), "source": None, "cat": "ih_focus"},
+    {"url": gnews(IOT_QUERY), "source": None, "cat": "ih_focus"},
     {"url": gnews(KITCHEN_QUERY), "source": None, "cat": "food"},
     {"url": gnews(AI_QUERY), "source": None, "cat": "ai"},
     {"url": gnews(FOODTECH_QUERY), "source": None, "cat": "food"},
     {"url": gnews(BIGNEWS_QUERY), "source": None, "cat": "big_news"},
 ]
 
-TOP_N = {"appliance": 15, "ai": 15, "magazine": 18, "food": 15, "rock": 15, "ih_focus": 12, "big_news": 20}
+TOP_N = {"appliance": 15, "ai": 15, "magazine": 18, "food": 15, "rock": 15, "ih_focus": 16, "big_news": 20}
 
 
 def local_name(tag):
