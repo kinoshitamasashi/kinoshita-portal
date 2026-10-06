@@ -142,7 +142,8 @@ def main(html_path, data_path):
     for cat, color in COLOR_FOR_CAT.items():
         items = data.get(cat, [])[:TOP_N[cat]]
         if not items:
-            raise RuntimeError(f"no items provided for category '{cat}' - refusing to wipe existing content")
+            print(f"WARNING: no items for category '{cat}', skipping (keeping existing content)", file=sys.stderr)
+            continue
         rows = build_rows(items)
         html = replace_category_body(html, color, rows)
 
