@@ -31,6 +31,19 @@ def is_near_duplicate(a, b):
     return difflib.SequenceMatcher(None, normalize_title(a), normalize_title(b)).ratio() >= SIMILARITY_THRESHOLD
 
 
+MAX_PER_ENTITY_CLUSTER = 2
+
+
+def extract_entity_tokens(title):
+    # Distinctive proper-noun-ish tokens (brand names etc.), used to cap how many
+    # articles about the same single event (same day, same named entity) pile up.
+    return set(re.findall(r'[ァ-ヴー]{4,}', title))
+
+
+def shares_entity(a_tokens, b_tokens):
+    return bool(a_tokens & b_tokens)
+
+
 # Sources known to commonly paywall full articles (best-effort heuristic;
 # RSS metadata doesn't expose per-article paywall status).
 PAYWALLED_SOURCES = {
@@ -54,6 +67,16 @@ BIGNEWS_QUERY = (
     "(家電メーカー OR 住宅メーカー OR キッチンメーカー OR 家電量販店 OR 住宅設備 OR IHクッキングヒーター) "
     "(買収 OR 経営統合 OR 合併 OR 資本提携)"
 )
+BIGNEWS_GLOBAL_QUERY = (
+    "(Samsung OR LG電子 OR Whirlpool OR Electrolux OR Haier OR ハイアール OR Midea OR 美的 OR GEアプライアンス) "
+    "(家電 OR 住宅設備 OR 白物家電) "
+    "(買収 OR 経営統合 OR 合併 OR M&A)"
+)
+BIGNEWS_PRODUCT_QUERY = (
+    "(Panasonic OR 日立 OR 東芝 OR シャープ OR 三菱電機 OR Samsung OR LG電子 OR Haier OR ハイアール OR Midea OR 美的) "
+    "(家電 OR 白物家電 OR キッチン家電 OR 冷蔵庫 OR 洗濯機 OR エアコン OR IHクッキングヒーター) "
+    "(新製品発表 OR 世界初 OR 業界初)"
+)
 
 
 def gnews(query):
@@ -74,9 +97,11 @@ FEEDS = [
     {"url": gnews(AI_QUERY), "source": None, "cat": "ai"},
     {"url": gnews(FOODTECH_QUERY), "source": None, "cat": "food"},
     {"url": gnews(BIGNEWS_QUERY), "source": None, "cat": "big_news"},
+    {"url": gnews(BIGNEWS_GLOBAL_QUERY), "source": None, "cat": "big_news"},
+    {"url": gnews(BIGNEWS_PRODUCT_QUERY), "source": None, "cat": "big_news"},
 ]
 
-TOP_N = {"appliance": 15, "ai": 15, "magazine": 18, "food": 15, "rock": 15, "ih_focus": 16, "big_news": 20}
+TOP_N = {"appliance": 15, "ai": 15, "magazine": 18, "food": 15, "rock": 15, "ih_focus": 16, "big_news": 35}
 
 
 def local_name(tag):
@@ -176,6 +201,19 @@ def main(out_path):
                 if is_paywalled(kept["source"]) and not is_paywalled(it["source"]):
                     deduped[dup_index] = it
                 continue
+
+            # cap how many articles about the same single event (same brand-name
+            # token, same narrow date window) can pile up from heavy syndication
+            it_tokens = extract_entity_tokens(it["title"])
+            if it_tokens:
+                cluster_count = 0
+                for kept in deduped:
+                    kept_date = datetime.strptime(kept["date"], "%Y-%m-%d").date()
+                    if abs((it_date - kept_date).days) <= DUP_WINDOW_DAYS and shares_entity(it_tokens, extract_entity_tokens(kept["title"])):
+                        cluster_count += 1
+                if cluster_count >= MAX_PER_ENTITY_CLUSTER:
+                    continue
+
             deduped.append(it)
         result[cat] = deduped[:TOP_N[cat]]
         if not result[cat]:
