@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<!DOCTYPE html>
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
@@ -323,6 +323,12 @@
   .highlights .link-row { align-items: flex-start; }
   .highlights .link-title { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
 
+  .big-news {
+    border-left: 4px solid #C0392B;
+    background: color-mix(in srgb, #C0392B 6%, var(--surface));
+  }
+  .big-news .highlights-title { color: #C0392B; }
+
   .gsearch {
     display: flex;
     align-items: center;
@@ -646,6 +652,15 @@
           </span>
           <span class="go">›</span>
         </a>
+      </div>
+    </div>
+
+    <div class="highlights big-news">
+      <div class="highlights-title">
+        <span>🚨 ビッグニュース</span>
+        <span class="cat-count mono">業界M&amp;A</span>
+      </div>
+      <div class="cat-body">
       </div>
     </div>
 
