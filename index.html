@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<!DOCTYPE html>
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
@@ -346,68 +346,24 @@
   }
   .gsearch-input::placeholder { color: var(--ink-faint); }
 
-  .weather {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 14px;
-    margin-bottom: 4px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-  .weather-temp-block {
-    flex-shrink: 0;
-    width: 56px;
-    height: 56px;
-    border-radius: 14px;
-    background: var(--weather-accent-soft, #2F86C91A);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    line-height: 1.1;
-  }
-  .weather-temp {
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--weather-accent, #2F86C9);
-    font-variant-numeric: tabular-nums;
-  }
-  .weather-icon { font-size: 18px; }
-  .weather-body { flex: 1; min-width: 0; }
-  .weather-title-row {
+  .title-weather {
     display: flex;
     align-items: baseline;
-    gap: 6px;
-    margin-bottom: 3px;
+    gap: 7px;
+    min-width: 0;
   }
-  .weather-place {
-    font-size: 13.5px;
-    font-weight: 700;
-  }
-  .weather-fetched {
-    font-size: 9.5px;
-    color: var(--ink-faint);
-    margin-left: auto;
-  }
-  .weather-desc {
+  .weather-mini {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
     font-size: 12px;
-    color: var(--ink-soft);
-    margin-bottom: 3px;
-  }
-  .weather-range {
-    font-size: 10.5px;
-    color: var(--ink-faint);
-  }
-  .weather-link {
-    display: block;
-    font-size: 10.5px;
-    color: var(--weather-accent, #2F86C9);
+    font-variant-numeric: tabular-nums;
+    color: #F5F0E4;
     text-decoration: none;
-    margin-top: 4px;
-    font-weight: 600;
+    opacity: 0.85;
+    white-space: nowrap;
   }
+  .weather-mini-icon { font-size: 13px; }
 
   .schedule {
     background: var(--heat-soft);
@@ -588,7 +544,12 @@
       <circle cx="70" cy="70" r="56" stroke-width="2"></circle>
     </svg>
     <div class="header-row">
-      <h1>木下ポータル</h1>
+      <div class="title-weather">
+        <h1>木下ポータル</h1>
+        <a class="weather-mini" target="_blank" rel="noopener noreferrer" href="https://tenki.jp/forecast/6/31/6310/28111/" title="くもりのち時々晴れ　今日17℃/24℃　明日14℃/23℃・晴れ時々くもり（取得:10/06）">
+          <span class="weather-mini-icon">☁️</span><span class="weather-mini-temp">24℃</span>
+        </a>
+      </div>
       <span class="clock mono" id="clock"></span>
     </div>
     <p class="subtitle">業界・AI・食/生活・ビジネスの最新情報をワンタップで確認</p>
@@ -614,22 +575,6 @@
       <span class="gsearch-icon">🔍</span>
       <input class="gsearch-input" type="text" name="q" placeholder="Googleで検索" aria-label="Google検索" autocomplete="off">
     </form>
-
-    <div class="weather">
-      <div class="weather-temp-block">
-        <span class="weather-icon">☁️</span>
-        <span class="weather-temp">24℃</span>
-      </div>
-      <div class="weather-body">
-        <div class="weather-title-row">
-          <span class="weather-place">📍神戸市西区</span>
-          <span class="weather-fetched mono">取得: 10/06</span>
-        </div>
-        <div class="weather-desc">くもりのち時々晴れ</div>
-        <div class="weather-range mono">今日 17℃/24℃　明日 14℃/23℃・晴れ時々くもり</div>
-        <a class="weather-link" target="_blank" rel="noopener noreferrer" href="https://tenki.jp/forecast/6/31/6310/28111/">tenki.jpで最新の天気を見る ›</a>
-      </div>
-    </div>
 
     <div class="highlights">
       <div class="highlights-title">
