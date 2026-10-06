@@ -38,6 +38,7 @@ CATEGORY_LABEL = {
 }
 HIGHLIGHTS_PER_CAT = 2
 HIGHLIGHTS_TOTAL = 8
+BIGNEWS_DISPLAY_CAP = 25
 
 
 def build_rows(items):
@@ -103,6 +104,21 @@ def replace_highlights_body(html, new_rows):
     return html[:body_tag_end] + '\n' + new_rows + '      ' + html[close_start:]
 
 
+def replace_bignews_body(html, new_rows):
+    anchor = '<div class="highlights big-news">'
+    s = html.find(anchor)
+    if s < 0:
+        raise RuntimeError("big-news anchor not found")
+    body_tag = '<div class="cat-body">'
+    body_idx = html.find(body_tag, s)
+    body_tag_end = body_idx + len(body_tag)
+    close_end = find_matching_div_end(html, body_tag_end)
+    if close_end < 0:
+        raise RuntimeError("matching close div not found for big-news")
+    close_start = close_end - len('</div>')
+    return html[:body_tag_end] + '\n' + new_rows + '      ' + html[close_start:]
+
+
 def find_matching_div_end(html, after_open_div_tag_end):
     depth = 1
     for m in re.finditer(r'<div\b|</div>', html[after_open_div_tag_end:]):
@@ -151,6 +167,12 @@ def main(html_path, data_path):
     if not highlight_rows:
         raise RuntimeError("no highlight items generated - refusing to wipe existing content")
     html = replace_highlights_body(html, highlight_rows)
+
+    big_news_items = data.get("big_news", [])[:BIGNEWS_DISPLAY_CAP]
+    if big_news_items:
+        html = replace_bignews_body(html, build_rows(big_news_items))
+    else:
+        print("WARNING: no big_news items, skipping (keeping existing content)", file=sys.stderr)
 
     timestamp = datetime.now(timezone.utc).astimezone(JST).strftime("%Y/%m/%d %H:%M")
     html = re.sub(r'記事一覧 最終更新: \d{4}/\d{2}/\d{2}(?: \d{2}:\d{2})?', f'記事一覧 最終更新: {timestamp}', html)
