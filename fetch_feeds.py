@@ -8,6 +8,7 @@ outbound network access (e.g. GitHub Actions), not the CCR cloud sandbox.
 Usage:
     python3 fetch_feeds.py feed_data.json
 """
+import difflib
 import json
 import re
 import sys
@@ -16,6 +17,18 @@ import urllib.request
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 from email.utils import parsedate_to_datetime
+
+SIMILARITY_THRESHOLD = 0.85
+DUP_WINDOW_DAYS = 1
+
+
+def normalize_title(title):
+    # strip trailing attribution/page markers like "（デイリー新潮）" or "(2ページ目)"
+    return re.sub(r'[（(][^（）()]{1,20}[）)]\s*$', '', title).strip()
+
+
+def is_near_duplicate(a, b):
+    return difflib.SequenceMatcher(None, normalize_title(a), normalize_title(b)).ratio() >= SIMILARITY_THRESHOLD
 
 UA = "Mozilla/5.0 (compatible; KinoshitaPortalBot/1.0)"
 
@@ -133,13 +146,18 @@ def main(out_path):
 
     for cat in result:
         result[cat].sort(key=lambda x: x["_sort"], reverse=True)
-        seen_titles = set()
         deduped = []
         for it in result[cat]:
             del it["_sort"]
-            if it["title"] in seen_titles:
+            it_date = datetime.strptime(it["date"], "%Y-%m-%d").date()
+            is_dup = False
+            for kept in deduped:
+                kept_date = datetime.strptime(kept["date"], "%Y-%m-%d").date()
+                if abs((it_date - kept_date).days) <= DUP_WINDOW_DAYS and is_near_duplicate(it["title"], kept["title"]):
+                    is_dup = True
+                    break
+            if is_dup:
                 continue
-            seen_titles.add(it["title"])
             deduped.append(it)
         result[cat] = deduped[:TOP_N[cat]]
         if not result[cat]:
