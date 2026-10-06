@@ -23,6 +23,10 @@ IH_QUERY = "IHクッキングヒーター OR 電磁調理器 OR IHコンロ OR I
 KITCHEN_QUERY = "システムキッチン OR Miele OR タカラスタンダード OR クリナップ"
 AI_QUERY = "ChatGPT OR Claude OR Copilot"
 FOODTECH_QUERY = "フードテック OR 自動調理 OR 調理家電"
+BIGNEWS_QUERY = (
+    "(家電メーカー OR 住宅メーカー OR キッチンメーカー OR 家電量販店 OR 住宅設備 OR IHクッキングヒーター) "
+    "(買収 OR 経営統合 OR 合併 OR 資本提携)"
+)
 
 
 def gnews(query):
@@ -41,9 +45,10 @@ FEEDS = [
     {"url": gnews(KITCHEN_QUERY), "source": None, "cat": "food"},
     {"url": gnews(AI_QUERY), "source": None, "cat": "ai"},
     {"url": gnews(FOODTECH_QUERY), "source": None, "cat": "food"},
+    {"url": gnews(BIGNEWS_QUERY), "source": None, "cat": "big_news"},
 ]
 
-TOP_N = {"appliance": 15, "ai": 15, "magazine": 18, "food": 15, "rock": 15, "ih_focus": 12}
+TOP_N = {"appliance": 15, "ai": 15, "magazine": 18, "food": 15, "rock": 15, "ih_focus": 12, "big_news": 20}
 
 
 def local_name(tag):
@@ -103,7 +108,7 @@ def item_fields(item):
 
 
 def main(out_path):
-    result = {"appliance": [], "ai": [], "magazine": [], "food": [], "rock": [], "ih_focus": []}
+    result = {"appliance": [], "ai": [], "magazine": [], "food": [], "rock": [], "ih_focus": [], "big_news": []}
     errors = []
 
     for feed in FEEDS:
