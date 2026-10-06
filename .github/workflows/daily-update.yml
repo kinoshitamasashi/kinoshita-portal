@@ -21,19 +21,22 @@ jobs:
       - name: Fetch RSS feeds
         run: python fetch_feeds.py feed_data.json
 
+      - name: Accumulate big news (30-day retention)
+        run: python merge_big_news.py feed_data.json big_news_state.json
+
       - name: Splice into index.html
         run: python update_news.py index.html feed_data.json
 
       - name: Commit and push if changed
         run: |
           rm -f feed_data.json
-          if git diff --quiet -- index.html; then
+          if git diff --quiet -- index.html big_news_state.json; then
             echo "No changes."
             exit 0
           fi
           git config user.name "kinoshita-portal-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add index.html
+          git add index.html big_news_state.json
           git commit -m "Daily news update $(date -u +%Y-%m-%d)"
           for i in 1 2 3 4 5; do
             git fetch origin main
