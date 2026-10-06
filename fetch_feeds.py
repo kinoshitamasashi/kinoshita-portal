@@ -30,6 +30,19 @@ def normalize_title(title):
 def is_near_duplicate(a, b):
     return difflib.SequenceMatcher(None, normalize_title(a), normalize_title(b)).ratio() >= SIMILARITY_THRESHOLD
 
+
+# Sources known to commonly paywall full articles (best-effort heuristic;
+# RSS metadata doesn't expose per-article paywall status).
+PAYWALLED_SOURCES = {
+    "日本経済新聞", "日経電子版", "日経ビジネス", "日経ビジネス電子版",
+    "日経クロステック", "日経xTECH", "Bloomberg", "ウォール・ストリート・ジャーナル", "WSJ",
+}
+
+
+def is_paywalled(source):
+    return source in PAYWALLED_SOURCES
+
+
 UA = "Mozilla/5.0 (compatible; KinoshitaPortalBot/1.0)"
 
 IH_QUERY = "IHクッキングヒーター OR 電磁調理器 OR IHコンロ OR IH調理器"
@@ -150,13 +163,16 @@ def main(out_path):
         for it in result[cat]:
             del it["_sort"]
             it_date = datetime.strptime(it["date"], "%Y-%m-%d").date()
-            is_dup = False
-            for kept in deduped:
+            dup_index = None
+            for idx, kept in enumerate(deduped):
                 kept_date = datetime.strptime(kept["date"], "%Y-%m-%d").date()
                 if abs((it_date - kept_date).days) <= DUP_WINDOW_DAYS and is_near_duplicate(it["title"], kept["title"]):
-                    is_dup = True
+                    dup_index = idx
                     break
-            if is_dup:
+            if dup_index is not None:
+                kept = deduped[dup_index]
+                if is_paywalled(kept["source"]) and not is_paywalled(it["source"]):
+                    deduped[dup_index] = it
                 continue
             deduped.append(it)
         result[cat] = deduped[:TOP_N[cat]]
