@@ -2,7 +2,7 @@ name: Daily news update
 
 on:
   schedule:
-    - cron: "30 21 * * *"
+    - cron: "10 18 * * *"
   workflow_dispatch: {}
 
 permissions:
