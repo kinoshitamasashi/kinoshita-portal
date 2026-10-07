@@ -72,6 +72,11 @@ BIGNEWS_GLOBAL_QUERY = (
     "(家電 OR 住宅設備 OR 白物家電) "
     "(買収 OR 経営統合 OR 合併 OR M&A)"
 )
+BIGNEWS_TECH_QUERY = (
+    "(家電 OR IHクッキングヒーター OR キッチン家電 OR 住宅設備 OR 省エネ住宅) "
+    "(技術革新 OR 新技術開発 OR ブレークスルー)"
+)
+TOC_QUERY = "制約理論 OR ゴールドラット OR スループット会計 OR 制約条件理論"
 
 def gnews(query):
     return "https://news.google.com/rss/search?q=" + urllib.parse.quote(query) + "&hl=ja&gl=JP&ceid=JP:ja"
@@ -92,9 +97,11 @@ FEEDS = [
     {"url": gnews(FOODTECH_QUERY), "source": None, "cat": "food"},
     {"url": gnews(BIGNEWS_QUERY), "source": None, "cat": "big_news"},
     {"url": gnews(BIGNEWS_GLOBAL_QUERY), "source": None, "cat": "big_news"},
+    {"url": gnews(BIGNEWS_TECH_QUERY), "source": None, "cat": "big_news"},
+    {"url": gnews(TOC_QUERY), "source": None, "cat": "toc"},
 ]
 
-TOP_N = {"appliance": 15, "ai": 15, "magazine": 18, "food": 15, "rock": 15, "ih_focus": 16, "big_news": 35}
+TOP_N = {"appliance": 15, "ai": 15, "magazine": 18, "food": 15, "rock": 15, "ih_focus": 16, "big_news": 35, "toc": 15}
 
 
 def local_name(tag):
@@ -154,7 +161,7 @@ def item_fields(item):
 
 
 def main(out_path):
-    result = {"appliance": [], "ai": [], "magazine": [], "food": [], "rock": [], "ih_focus": [], "big_news": []}
+    result = {"appliance": [], "ai": [], "magazine": [], "food": [], "rock": [], "ih_focus": [], "big_news": [], "toc": []}
     errors = []
 
     for feed in FEEDS:
