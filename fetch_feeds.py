@@ -60,6 +60,7 @@ UA = "Mozilla/5.0 (compatible; KinoshitaPortalBot/1.0)"
 
 IH_QUERY = "IHクッキングヒーター OR 電磁調理器 OR IHコンロ OR IH調理器"
 IOT_QUERY = "IoT家電 OR スマート家電 OR コネクテッド家電 OR スマートキッチン"
+HOUSING_EQUIPMENT_QUERY = "住宅設備 OR 給湯器 OR 工事専門店"
 KITCHEN_QUERY = "システムキッチン OR Miele OR タカラスタンダード OR クリナップ"
 AI_QUERY = "ChatGPT OR Claude OR Copilot"
 FOODTECH_QUERY = "フードテック OR 自動調理 OR 調理家電"
@@ -92,6 +93,7 @@ FEEDS = [
     {"url": "https://gekirock.com/news/index.xml", "source": "激ロック", "cat": "rock"},
     {"url": gnews(IH_QUERY), "source": None, "cat": "ih_focus"},
     {"url": gnews(IOT_QUERY), "source": None, "cat": "ih_focus"},
+    {"url": gnews(HOUSING_EQUIPMENT_QUERY), "source": None, "cat": "ih_focus"},
     {"url": gnews(KITCHEN_QUERY), "source": None, "cat": "food"},
     {"url": gnews(AI_QUERY), "source": None, "cat": "ai"},
     {"url": gnews(FOODTECH_QUERY), "source": None, "cat": "food"},
@@ -101,7 +103,7 @@ FEEDS = [
     {"url": gnews(TOC_QUERY), "source": None, "cat": "toc"},
 ]
 
-TOP_N = {"appliance": 15, "ai": 15, "magazine": 18, "food": 15, "rock": 15, "ih_focus": 16, "big_news": 35, "toc": 15}
+TOP_N = {"appliance": 15, "ai": 15, "magazine": 18, "food": 15, "rock": 15, "ih_focus": 20, "big_news": 35, "toc": 15}
 
 
 def local_name(tag):
