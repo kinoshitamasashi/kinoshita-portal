@@ -90,6 +90,7 @@ BIGNEWS_TECH_QUERY = (
     "(技術革新 OR 新技術開発 OR ブレークスルー)"
 )
 TOC_QUERY = "制約理論 OR ゴールドラット OR スループット会計 OR 制約条件理論"
+RETAIL_QUERY = "家電量販店 (決算 OR 業績 OR 出店 OR 戦略 OR 経営)"
 
 def gnews(query):
     return "https://news.google.com/rss/search?q=" + urllib.parse.quote(query) + "&hl=ja&gl=JP&ceid=JP:ja"
@@ -113,9 +114,10 @@ FEEDS = [
     {"url": gnews(BIGNEWS_GLOBAL_QUERY), "source": None, "cat": "big_news"},
     {"url": gnews(BIGNEWS_TECH_QUERY), "source": None, "cat": "big_news"},
     {"url": gnews(TOC_QUERY), "source": None, "cat": "toc"},
+    {"url": gnews(RETAIL_QUERY), "source": None, "cat": "appliance"},
 ]
 
-TOP_N = {"appliance": 15, "ai": 8, "magazine": 18, "food": 15, "rock": 15, "ih_focus": 20, "big_news": 35, "toc": 15}
+TOP_N = {"appliance": 22, "ai": 8, "magazine": 18, "food": 15, "rock": 15, "ih_focus": 20, "big_news": 35, "toc": 15}
 
 
 def local_name(tag):
