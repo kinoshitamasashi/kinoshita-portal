@@ -56,6 +56,18 @@ def is_paywalled(source):
     return source in PAYWALLED_SOURCES
 
 
+# Press-release distribution services: anyone can pay to publish here, so these
+# are not an editor's judgment of importance. Deprioritized, not excluded.
+PRESS_RELEASE_SOURCES = {
+    "PR TIMES", "@Press", "アットプレス", "Digital PR Platform", "value press",
+    "バリュープレス", "共同通信PRワイヤー", "ValuePress!", "PRWire",
+}
+
+
+def is_press_release(source):
+    return source in PRESS_RELEASE_SOURCES
+
+
 UA = "Mozilla/5.0 (compatible; KinoshitaPortalBot/1.0)"
 
 IH_QUERY = "IHクッキングヒーター OR 電磁調理器 OR IHコンロ OR IH調理器"
@@ -217,6 +229,11 @@ def main(out_path):
                     continue
 
             deduped.append(it)
+
+        # prefer independently-reported items over paid press-release wire
+        # copy when trimming to the display cap (recency order is preserved
+        # within each tier since sort() is stable)
+        deduped.sort(key=lambda x: is_press_release(x["source"]))
         result[cat] = deduped[:TOP_N[cat]]
         if not result[cat]:
             errors.append(f"category '{cat}' ended up empty")
