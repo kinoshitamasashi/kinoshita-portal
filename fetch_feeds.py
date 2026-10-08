@@ -60,7 +60,7 @@ UA = "Mozilla/5.0 (compatible; KinoshitaPortalBot/1.0)"
 
 IH_QUERY = "IHクッキングヒーター OR 電磁調理器 OR IHコンロ OR IH調理器"
 IOT_QUERY = "IoT家電 OR スマート家電 OR コネクテッド家電 OR スマートキッチン"
-HOUSING_EQUIPMENT_QUERY = "住宅設備 OR 給湯器 OR 工事専門店"
+HOUSING_EQUIPMENT_QUERY = "住宅設備 OR 工事専門店"
 KITCHEN_QUERY = "システムキッチン OR Miele OR タカラスタンダード OR クリナップ"
 AI_QUERY = "ChatGPT OR Claude OR Copilot"
 FOODTECH_QUERY = "フードテック OR 自動調理 OR 調理家電"
