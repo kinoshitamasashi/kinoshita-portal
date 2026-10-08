@@ -103,7 +103,7 @@ FEEDS = [
     {"url": gnews(TOC_QUERY), "source": None, "cat": "toc"},
 ]
 
-TOP_N = {"appliance": 15, "ai": 15, "magazine": 18, "food": 15, "rock": 15, "ih_focus": 20, "big_news": 35, "toc": 15}
+TOP_N = {"appliance": 15, "ai": 8, "magazine": 18, "food": 15, "rock": 15, "ih_focus": 20, "big_news": 35, "toc": 15}
 
 
 def local_name(tag):
