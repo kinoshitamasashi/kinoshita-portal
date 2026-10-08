@@ -90,7 +90,7 @@ BIGNEWS_TECH_QUERY = (
     "(技術革新 OR 新技術開発 OR ブレークスルー)"
 )
 TOC_QUERY = "制約理論 OR ゴールドラット OR スループット会計 OR 制約条件理論"
-RETAIL_QUERY = "家電量販店 (決算 OR 業績 OR 出店 OR 戦略 OR 経営)"
+RETAIL_QUERY = "家電量販店 (新業態 OR ビジネスモデル OR 新事業 OR 事業変革)"
 
 def gnews(query):
     return "https://news.google.com/rss/search?q=" + urllib.parse.quote(query) + "&hl=ja&gl=JP&ceid=JP:ja"
