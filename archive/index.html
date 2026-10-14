@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>バックナンバー - 木下ポータル</title>
+<style>
+  :root {
+    --bg: #F6F4EF;
+    --surface: #FFFFFF;
+    --ink: #1E2126;
+    --ink-soft: #55606B;
+    --heat: #C85A26;
+    --border: #DCD8CE;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14161C;
+      --surface: #1C1F27;
+      --ink: #ECEAE4;
+      --ink-soft: #9AA3AE;
+      --heat: #FF8A4C;
+      --border: #2E323D;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Meiryo", system-ui, sans-serif;
+  }
+  .wrap {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 24px 20px 48px;
+  }
+  h1 {
+    font-size: 1.3rem;
+    margin: 0 0 4px;
+  }
+  p.lead {
+    color: var(--ink-soft);
+    font-size: 0.85rem;
+    margin: 0 0 20px;
+  }
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  li a {
+    display: block;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--heat);
+    border-radius: 10px;
+    padding: 14px 16px;
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 0.95rem;
+  }
+  li a:hover {
+    border-left-width: 6px;
+  }
+  .back {
+    display: inline-block;
+    margin-top: 28px;
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 0.85rem;
+  }
+  .empty {
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>バックナンバー</h1>
+  <p class="lead">過去7日分のニュース・スナップショットを保存しています。</p>
+  <ul>
+    <li><a href="2026-10-15.html">10月15日（木）</a></li>
+  </ul>
+  <a class="back" href="../index.html">‹ 木下ポータルに戻る</a>
+</div>
+</body>
+</html>
