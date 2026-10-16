@@ -31,9 +31,17 @@ jobs:
       - name: Save back-number snapshot (7-day retention)
         run: python archive_snapshot.py index.html archive
 
+      - name: Fetch TV feature previews
+        env:
+          NHK_API_KEY: ${{ secrets.NHK_API_KEY }}
+        run: python fetch_tv_preview.py tv_preview.json
+
+      - name: Splice TV previews into index.html
+        run: python update_tv_preview.py index.html tv_preview.json
+
       - name: Commit and push if changed
         run: |
-          rm -f feed_data.json
+          rm -f feed_data.json tv_preview.json
           if git diff --quiet -- index.html big_news_state.json archive; then
             echo "No changes."
             exit 0
