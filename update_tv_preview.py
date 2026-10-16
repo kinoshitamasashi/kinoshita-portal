@@ -31,39 +31,23 @@ def find_matching_div_end(html, after_open_div_tag_end):
 
 def build_row(it):
     title = escape(it["title"])
-    if it["date"]:
-        d = datetime.strptime(it["date"], "%Y-%m-%d").date()
-        date_badge = (
-            f'<span class="sched-date"><span class="sched-day">{d.day}</span>'
-            f'<span class="sched-dow">{WEEKDAY_JA[d.weekday()]}</span></span>'
-        )
-    else:
-        date_badge = '<span class="sched-date tv-date-unknown">📺</span>'
-
-    if it["source_type"] == "nhk":
-        sub = escape(it["channel"] or "NHK")
-        if it["time"]:
-            sub += " ・ " + escape(it["time"])
-    else:
-        sub = escape(it["source"]) + " ・ ニュース予告"
-
-    inner = (
-        f'{date_badge}\n'
+    d = datetime.strptime(it["date"], "%Y-%m-%d").date()
+    date_badge = (
+        f'<span class="sched-date"><span class="sched-day">{d.day}</span>'
+        f'<span class="sched-dow">{WEEKDAY_JA[d.weekday()]}</span></span>'
+    )
+    sub = escape(it["source"]) + " ・ ニュース予告"
+    url = escape(it["link"], quote=True)
+    return (
+        f'        <a class="sched-row" target="_blank" rel="noopener noreferrer" href="{url}">\n'
+        f'          {date_badge}\n'
         f'          <span class="sched-info">\n'
         f'            <span class="sched-title">{title}</span>\n'
         f'            <span class="sched-time mono">{sub}</span>\n'
         f'          </span>\n'
+        f'          <span class="go">›</span>\n'
+        f'        </a>\n'
     )
-
-    if it["link"]:
-        url = escape(it["link"], quote=True)
-        return (
-            f'        <a class="sched-row" target="_blank" rel="noopener noreferrer" href="{url}">\n'
-            f'          {inner}'
-            f'          <span class="go">›</span>\n'
-            f'        </a>\n'
-        )
-    return f'        <div class="sched-row tv-row-plain">\n          {inner}        </div>\n'
 
 
 def build_rows(items):
