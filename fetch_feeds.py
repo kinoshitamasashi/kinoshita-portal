@@ -94,6 +94,7 @@ BIGNEWS_ENTRY_QUERY = (
     "(日本上陸 OR 日本進出 OR 日本市場参入 OR 日本初出店)"
 )
 TOC_QUERY = "制約理論 OR ゴールドラット OR スループット会計 OR 制約条件理論"
+BIZBOOK_QUERY = "ビジネス書 (ランキング OR ベストセラー OR 書評) -俳優 -女優 -アイドル"
 RETAIL_QUERY = "家電量販店 (新業態 OR ビジネスモデル OR 新事業 OR 事業変革)"
 POLICY_QUERY = (
     "(家電 OR 住宅 OR 省エネ住宅) "
@@ -122,12 +123,19 @@ FEEDS = [
     {"url": gnews(BIGNEWS_GLOBAL_QUERY), "source": None, "cat": "big_news"},
     {"url": gnews(BIGNEWS_TECH_QUERY), "source": None, "cat": "big_news"},
     {"url": gnews(BIGNEWS_ENTRY_QUERY), "source": None, "cat": "big_news"},
-    {"url": gnews(TOC_QUERY), "source": None, "cat": "toc"},
+    {"url": gnews(TOC_QUERY), "source": None, "cat": "toc", "subcat": "core"},
+    {"url": gnews(BIZBOOK_QUERY), "source": None, "cat": "toc", "subcat": "book"},
     {"url": gnews(RETAIL_QUERY), "source": None, "cat": "appliance"},
     {"url": gnews(POLICY_QUERY), "source": None, "cat": "policy"},
 ]
 
 TOP_N = {"appliance": 22, "ai": 8, "magazine": 18, "food": 15, "rock": 15, "ih_focus": 20, "big_news": 35, "toc": 15, "policy": 15}
+
+# "toc" blends two unrelated-frequency topics (TOC methodology articles are
+# rare; business-book ranking roundups are weekly). A plain recency sort lets
+# the frequent one crowd the rare one out entirely, so reserve floor slots
+# per subtopic instead of trimming the merged pool as one list.
+TOC_SUBCAT_RESERVED = {"core": 6, "book": 6}
 
 
 def local_name(tag):
@@ -206,6 +214,7 @@ def main(out_path):
                     "date": dt.strftime("%Y-%m-%d"),
                     "source": source,
                     "_sort": dt,
+                    "_subcat": feed.get("subcat"),
                 })
         except Exception as e:
             errors.append(f"{feed['source'] or feed['cat']} ({feed['url']}): {e}")
@@ -246,7 +255,29 @@ def main(out_path):
         # copy when trimming to the display cap (recency order is preserved
         # within each tier since sort() is stable)
         deduped.sort(key=lambda x: is_press_release(x["source"]))
-        result[cat] = deduped[:TOP_N[cat]]
+
+        if cat == "toc":
+            # blends two subtopics with very different publish frequency;
+            # reserve floor slots per subtopic so the frequent one (business
+            # book roundups) can't crowd out the rare one (TOC articles).
+            order = {id(it): i for i, it in enumerate(deduped)}
+            core_items = [it for it in deduped if it.get("_subcat") == "core"]
+            book_items = [it for it in deduped if it.get("_subcat") == "book"]
+            take_core = min(len(core_items), TOC_SUBCAT_RESERVED["core"])
+            take_book = min(len(book_items), TOC_SUBCAT_RESERVED["book"])
+            selected = core_items[:take_core] + book_items[:take_book]
+            remaining = TOP_N[cat] - len(selected)
+            if remaining > 0:
+                leftover = sorted(core_items[take_core:] + book_items[take_book:], key=lambda x: order[id(x)])
+                selected += leftover[:remaining]
+            selected.sort(key=lambda x: order[id(x)])
+            result[cat] = selected
+        else:
+            result[cat] = deduped[:TOP_N[cat]]
+
+        for it in result[cat]:
+            it.pop("_subcat", None)
+
         if not result[cat]:
             errors.append(f"category '{cat}' ended up empty")
 
