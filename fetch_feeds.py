@@ -89,6 +89,10 @@ BIGNEWS_TECH_QUERY = (
     "(家電 OR IHクッキングヒーター OR キッチン家電 OR 住宅設備 OR 省エネ住宅) "
     "(技術革新 OR 新技術開発 OR ブレークスルー)"
 )
+BIGNEWS_ENTRY_QUERY = (
+    "(住宅設備メーカー OR 家電メーカー OR キッチンメーカー) "
+    "(日本上陸 OR 日本進出 OR 日本市場参入 OR 日本初出店)"
+)
 TOC_QUERY = "制約理論 OR ゴールドラット OR スループット会計 OR 制約条件理論"
 RETAIL_QUERY = "家電量販店 (新業態 OR ビジネスモデル OR 新事業 OR 事業変革)"
 POLICY_QUERY = (
@@ -117,6 +121,7 @@ FEEDS = [
     {"url": gnews(BIGNEWS_QUERY), "source": None, "cat": "big_news"},
     {"url": gnews(BIGNEWS_GLOBAL_QUERY), "source": None, "cat": "big_news"},
     {"url": gnews(BIGNEWS_TECH_QUERY), "source": None, "cat": "big_news"},
+    {"url": gnews(BIGNEWS_ENTRY_QUERY), "source": None, "cat": "big_news"},
     {"url": gnews(TOC_QUERY), "source": None, "cat": "toc"},
     {"url": gnews(RETAIL_QUERY), "source": None, "cat": "appliance"},
     {"url": gnews(POLICY_QUERY), "source": None, "cat": "policy"},
