@@ -36,7 +36,7 @@ CATEGORY_LABEL = {
     "policy": "政策・規制・基準",
     "magazine": "雑誌記事・ビジネス",
     "rock": "ロック・メタル",
-    "toc": "TOC・制約理論",
+    "toc": "TOC、ビジネス書",
 }
 HIGHLIGHTS_PER_CAT = 2
 HIGHLIGHTS_TOTAL = 8
