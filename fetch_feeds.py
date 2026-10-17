@@ -76,22 +76,28 @@ HOUSING_EQUIPMENT_QUERY = "住宅設備 OR 工事専門店"
 KITCHEN_QUERY = "システムキッチン OR Miele OR タカラスタンダード OR クリナップ"
 AI_QUERY = "ChatGPT OR Claude OR Copilot"
 FOODTECH_QUERY = "フードテック OR 自動調理 OR 調理家電"
+# Google News matches full article text, not just the title, so a brand name
+# or phrase can surface an unrelated local/civic story that merely mentions it
+# in passing (e.g. a factory host city's youth contest announcement). Exclude
+# the recognizable noise pattern rather than chase each one individually.
+BIGNEWS_NOISE_EXCLUDE = "-コンテスト -児童 -青少年"
+
 BIGNEWS_QUERY = (
     "(家電メーカー OR 住宅メーカー OR キッチンメーカー OR 家電量販店 OR 住宅設備 OR IHクッキングヒーター) "
-    "(買収 OR 経営統合 OR 合併 OR 資本提携)"
+    "(買収 OR 経営統合 OR 合併 OR 資本提携) " + BIGNEWS_NOISE_EXCLUDE
 )
 BIGNEWS_GLOBAL_QUERY = (
     "(Samsung OR LG電子 OR Whirlpool OR Electrolux OR Haier OR ハイアール OR Midea OR 美的 OR GEアプライアンス) "
     "(家電 OR 住宅設備 OR 白物家電) "
-    "(買収 OR 経営統合 OR 合併 OR M&A)"
+    "(買収 OR 経営統合 OR 合併 OR M&A) " + BIGNEWS_NOISE_EXCLUDE
 )
 BIGNEWS_TECH_QUERY = (
     "(家電 OR IHクッキングヒーター OR キッチン家電 OR 住宅設備 OR 省エネ住宅) "
-    "(技術革新 OR 新技術開発 OR ブレークスルー)"
+    "(技術革新 OR 新技術開発 OR ブレークスルー) " + BIGNEWS_NOISE_EXCLUDE
 )
 BIGNEWS_ENTRY_QUERY = (
     "(住宅設備メーカー OR 家電メーカー OR キッチンメーカー) "
-    "(日本上陸 OR 日本進出 OR 日本市場参入 OR 日本初出店)"
+    "(日本上陸 OR 日本進出 OR 日本市場参入 OR 日本初出店) " + BIGNEWS_NOISE_EXCLUDE
 )
 TOC_QUERY = "制約理論 OR ゴールドラット OR スループット会計 OR 制約条件理論"
 BIZBOOK_QUERY = "ビジネス書 (ランキング OR ベストセラー OR 書評) -俳優 -女優 -アイドル"
