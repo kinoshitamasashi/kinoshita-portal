@@ -30,6 +30,9 @@ TV_QUERY_1 = f"(IHクッキングヒーター OR IH調理器 OR 電磁調理器)
 TV_QUERY_2 = f"(調理家電 OR キッチン家電) {TV_CONTEXT}"
 FORWARD_WINDOW_DAYS = 10  # accept an extracted air date up to this far ahead
 TONIGHT_PUBDATE_HOURS = 18  # "今夜" only trusted from a near-fresh article
+PUBDATE_MAX_AGE_DAYS = 45  # old recurring-segment articles get resurfaced by
+                           # keyword match; a stale pubDate means the "27日"
+                           # in the title is about some past year, not this one
 
 DATE_IN_TITLE_RE = re.compile(r'(\d{1,2})月(\d{1,2})日')
 TONIGHT_RE = re.compile(r'今夜|本日放送')
@@ -110,6 +113,8 @@ def fetch_news_items():
             pub = parse_pubdate(el)
             if not title or not link or pub is None:
                 continue
+            if pub < now_jst - timedelta(days=PUBDATE_MAX_AGE_DAYS):
+                continue  # stale/recurring-segment article resurfaced by keyword match
 
             air_date = guess_air_date(title, today)
             if air_date is None and TONIGHT_RE.search(title) and pub >= now_jst - timedelta(hours=TONIGHT_PUBDATE_HOURS):
