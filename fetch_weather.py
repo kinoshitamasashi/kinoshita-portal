@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Fetches weather for Kobe (神戸市西区) from two free, keyless sources:
+Fetches weather for Kobe (神戸市) from two free, keyless sources:
 - JMA (Japan Meteorological Agency) for the Japanese weather description text
 - Open-Meteo for clean, unambiguous daily min/max temperatures
 
