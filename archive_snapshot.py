@@ -11,6 +11,7 @@ INDEX_LISTING_TEMPLATE = """<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
 <title>バックナンバー - 木下ポータル</title>
 <style>
   :root {{
