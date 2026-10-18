@@ -126,13 +126,13 @@ def is_life_impact(title):
 
 
 # User lives in Kobe's Nishi ward; store-opening posts (明石じゃーなる /
-# 神戸ジャーナル cover all of Hyogo) about wards east of Chuo are too far to
-# be relevant and get dropped.
-EAST_OF_CHUO_WARDS = ["東灘区", "灘区"]
+# 神戸ジャーナル cover all of Hyogo) about wards too far from home are
+# dropped: east of Chuo, plus Kita (北区).
+TOO_FAR_WARDS = ["東灘区", "灘区", "北区"]
 
 
 def is_too_far_east(title):
-    return any(w in title for w in EAST_OF_CHUO_WARDS)
+    return any(w in title for w in TOO_FAR_WARDS)
 
 
 def gnews(query):
