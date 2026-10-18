@@ -125,6 +125,16 @@ def is_life_impact(title):
     return any(k in title for k in KOBE_SHIMBUN_IMPACT_KEYWORDS)
 
 
+# User lives in Kobe's Nishi ward; store-opening posts (明石じゃーなる /
+# 神戸ジャーナル cover all of Hyogo) about wards east of Chuo are too far to
+# be relevant and get dropped.
+EAST_OF_CHUO_WARDS = ["東灘区", "灘区"]
+
+
+def is_too_far_east(title):
+    return any(w in title for w in EAST_OF_CHUO_WARDS)
+
+
 def gnews(query):
     return "https://news.google.com/rss/search?q=" + urllib.parse.quote(query) + "&hl=ja&gl=JP&ceid=JP:ja"
 
@@ -256,6 +266,8 @@ def main(out_path):
                 if not title or not link or dt is None or not source:
                     continue
                 if feed.get("subcat") == "kobe_shimbun" and not is_life_impact(title):
+                    continue
+                if feed.get("subcat") == "journal" and is_too_far_east(title):
                     continue
                 result[feed["cat"]].append({
                     "title": title,
