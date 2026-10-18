@@ -106,6 +106,7 @@ POLICY_QUERY = (
     "(家電 OR 住宅 OR 省エネ住宅) "
     "(経済産業省 OR 国土交通省 OR 省エネ法 OR 建築物省エネ法 OR トップランナー制度)"
 )
+LOCAL_NEWS_QUERY = "site:kobe-np.co.jp (明石 OR 神戸市)"
 
 def gnews(query):
     return "https://news.google.com/rss/search?q=" + urllib.parse.quote(query) + "&hl=ja&gl=JP&ceid=JP:ja"
@@ -133,9 +134,10 @@ FEEDS = [
     {"url": gnews(BIZBOOK_QUERY), "source": None, "cat": "toc", "subcat": "book"},
     {"url": gnews(RETAIL_QUERY), "source": None, "cat": "appliance"},
     {"url": gnews(POLICY_QUERY), "source": None, "cat": "policy"},
+    {"url": gnews(LOCAL_NEWS_QUERY), "source": None, "cat": "local_news"},
 ]
 
-TOP_N = {"appliance": 22, "ai": 8, "magazine": 18, "food": 15, "rock": 15, "ih_focus": 20, "big_news": 35, "toc": 15, "policy": 15}
+TOP_N = {"appliance": 22, "ai": 8, "magazine": 18, "food": 15, "rock": 15, "ih_focus": 20, "big_news": 35, "toc": 15, "policy": 15, "local_news": 18}
 
 # "toc" blends two unrelated-frequency topics (TOC methodology articles are
 # rare; business-book ranking roundups are weekly). A plain recency sort lets
@@ -201,7 +203,7 @@ def item_fields(item):
 
 
 def main(out_path):
-    result = {"appliance": [], "ai": [], "magazine": [], "food": [], "rock": [], "ih_focus": [], "big_news": [], "toc": [], "policy": []}
+    result = {"appliance": [], "ai": [], "magazine": [], "food": [], "rock": [], "ih_focus": [], "big_news": [], "toc": [], "policy": [], "local_news": []}
     errors = []
 
     for feed in FEEDS:
