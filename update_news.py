@@ -34,7 +34,7 @@ CATEGORY_LABEL = {
     "food": "食・生活",
     "ai": "AI関連",
     "policy": "政策・規制・基準",
-    "magazine": "雑誌記事・ビジネス",
+    "magazine": "雑誌記事",
     "rock": "ロック・メタル",
     "toc": "TOC、ビジネス書",
     "local_news": "地域ニュース",
