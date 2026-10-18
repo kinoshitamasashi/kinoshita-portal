@@ -108,6 +108,23 @@ POLICY_QUERY = (
 )
 LOCAL_NEWS_QUERY = "site:kobe-np.co.jp (明石 OR 神戸市)"
 
+# 神戸新聞 covers everything from routine crime blotter to high school baseball;
+# only items whose title itself signals a genuinely large-scale/administrative
+# or life-affecting story are kept (store-opening info comes from the two
+# local "journal" sites instead, which need no such filter).
+KOBE_SHIMBUN_IMPACT_KEYWORDS = [
+    "停電", "断水", "運休", "通行止め", "避難指示", "避難勧告", "警報",
+    "補助金", "値上げ", "料金改定", "不正アクセス", "漏えい",
+    "感染症", "インフルエンザ", "台風", "地震", "豪雨", "浸水",
+    "市長選", "県議選", "県議補選", "当選確実", "新設", "移転", "上場",
+    "給与", "条例改正", "制度変更", "就航", "開設",
+]
+
+
+def is_life_impact(title):
+    return any(k in title for k in KOBE_SHIMBUN_IMPACT_KEYWORDS)
+
+
 def gnews(query):
     return "https://news.google.com/rss/search?q=" + urllib.parse.quote(query) + "&hl=ja&gl=JP&ceid=JP:ja"
 
@@ -134,16 +151,38 @@ FEEDS = [
     {"url": gnews(BIZBOOK_QUERY), "source": None, "cat": "toc", "subcat": "book"},
     {"url": gnews(RETAIL_QUERY), "source": None, "cat": "appliance"},
     {"url": gnews(POLICY_QUERY), "source": None, "cat": "policy"},
-    {"url": gnews(LOCAL_NEWS_QUERY), "source": None, "cat": "local_news"},
+    {"url": gnews(LOCAL_NEWS_QUERY), "source": None, "cat": "local_news", "subcat": "kobe_shimbun"},
+    {"url": "https://akashi-journal.com/category/openclose/feed/", "source": "明石じゃーなる", "cat": "local_news", "subcat": "journal"},
+    {"url": "https://kobe-journal.com/archives/tag/%E9%96%8B%E5%BA%97%EF%BC%8F%E3%82%AA%E3%83%BC%E3%83%97%E3%83%B3/feed/", "source": "神戸ジャーナル", "cat": "local_news", "subcat": "journal"},
 ]
 
 TOP_N = {"appliance": 22, "ai": 8, "magazine": 18, "food": 15, "rock": 15, "ih_focus": 20, "big_news": 35, "toc": 15, "policy": 15, "local_news": 18}
 
-# "toc" blends two unrelated-frequency topics (TOC methodology articles are
-# rare; business-book ranking roundups are weekly). A plain recency sort lets
-# the frequent one crowd the rare one out entirely, so reserve floor slots
-# per subtopic instead of trimming the merged pool as one list.
-TOC_SUBCAT_RESERVED = {"core": 6, "book": 6}
+# Some categories blend subtopics with very different publish frequency (a
+# plain recency sort lets the frequent one crowd the rare one out entirely),
+# so those reserve floor slots per subtopic instead of trimming the merged
+# pool as one list. "toc": TOC articles are rare, business-book roundups are
+# weekly. "local_news": journal store-opening posts are frequent, genuinely
+# big Kobe Shimbun stories are rare.
+SUBCAT_RESERVED = {
+    "toc": {"core": 6, "book": 6},
+    "local_news": {"journal": 8, "kobe_shimbun": 6},
+}
+
+
+def apply_subcat_reservation(deduped, reserved, top_n):
+    order = {id(it): i for i, it in enumerate(deduped)}
+    selected = []
+    for subcat, floor in reserved.items():
+        bucket = [it for it in deduped if it.get("_subcat") == subcat]
+        selected += bucket[:floor]
+    remaining = top_n - len(selected)
+    if remaining > 0:
+        selected_ids = {id(it) for it in selected}
+        leftover = [it for it in deduped if id(it) not in selected_ids]
+        selected += leftover[:remaining]
+    selected.sort(key=lambda x: order[id(x)])
+    return selected
 
 
 def local_name(tag):
@@ -216,6 +255,8 @@ def main(out_path):
                 source = feed["source"] or item_source
                 if not title or not link or dt is None or not source:
                     continue
+                if feed.get("subcat") == "kobe_shimbun" and not is_life_impact(title):
+                    continue
                 result[feed["cat"]].append({
                     "title": title,
                     "link": link,
@@ -264,22 +305,8 @@ def main(out_path):
         # within each tier since sort() is stable)
         deduped.sort(key=lambda x: is_press_release(x["source"]))
 
-        if cat == "toc":
-            # blends two subtopics with very different publish frequency;
-            # reserve floor slots per subtopic so the frequent one (business
-            # book roundups) can't crowd out the rare one (TOC articles).
-            order = {id(it): i for i, it in enumerate(deduped)}
-            core_items = [it for it in deduped if it.get("_subcat") == "core"]
-            book_items = [it for it in deduped if it.get("_subcat") == "book"]
-            take_core = min(len(core_items), TOC_SUBCAT_RESERVED["core"])
-            take_book = min(len(book_items), TOC_SUBCAT_RESERVED["book"])
-            selected = core_items[:take_core] + book_items[:take_book]
-            remaining = TOP_N[cat] - len(selected)
-            if remaining > 0:
-                leftover = sorted(core_items[take_core:] + book_items[take_book:], key=lambda x: order[id(x)])
-                selected += leftover[:remaining]
-            selected.sort(key=lambda x: order[id(x)])
-            result[cat] = selected
+        if cat in SUBCAT_RESERVED:
+            result[cat] = apply_subcat_reservation(deduped, SUBCAT_RESERVED[cat], TOP_N[cat])
         else:
             result[cat] = deduped[:TOP_N[cat]]
 
