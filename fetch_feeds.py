@@ -45,10 +45,13 @@ def shares_entity(a_tokens, b_tokens):
 
 
 # Sources known to commonly paywall full articles (best-effort heuristic;
-# RSS metadata doesn't expose per-article paywall status).
+# RSS metadata doesn't expose per-article paywall status). Excluded outright
+# rather than just deprioritized - an article nobody can actually read isn't
+# worth a slot.
 PAYWALLED_SOURCES = {
     "日本経済新聞", "日経電子版", "日経ビジネス", "日経ビジネス電子版",
     "日経クロステック", "日経xTECH", "Bloomberg", "ウォール・ストリート・ジャーナル", "WSJ",
+    "信濃毎日新聞デジタル", "信濃毎日新聞",
 }
 
 
@@ -265,6 +268,8 @@ def main(out_path):
                 source = feed["source"] or item_source
                 if not title or not link or dt is None or not source:
                     continue
+                if is_paywalled(source):
+                    continue
                 if feed.get("subcat") == "kobe_shimbun" and not is_life_impact(title):
                     continue
                 if feed.get("subcat") == "journal" and is_too_far_east(title):
@@ -286,16 +291,13 @@ def main(out_path):
         for it in result[cat]:
             del it["_sort"]
             it_date = datetime.strptime(it["date"], "%Y-%m-%d").date()
-            dup_index = None
-            for idx, kept in enumerate(deduped):
+            is_dup = False
+            for kept in deduped:
                 kept_date = datetime.strptime(kept["date"], "%Y-%m-%d").date()
                 if abs((it_date - kept_date).days) <= DUP_WINDOW_DAYS and is_near_duplicate(it["title"], kept["title"]):
-                    dup_index = idx
+                    is_dup = True
                     break
-            if dup_index is not None:
-                kept = deduped[dup_index]
-                if is_paywalled(kept["source"]) and not is_paywalled(it["source"]):
-                    deduped[dup_index] = it
+            if is_dup:
                 continue
 
             # cap how many articles about the same single event (same brand-name
