@@ -51,7 +51,7 @@ def shares_entity(a_tokens, b_tokens):
 PAYWALLED_SOURCES = {
     "日本経済新聞", "日経電子版", "日経ビジネス", "日経ビジネス電子版",
     "日経クロステック", "日経xTECH", "Bloomberg", "ウォール・ストリート・ジャーナル", "WSJ",
-    "信濃毎日新聞デジタル", "信濃毎日新聞",
+    "信濃毎日新聞デジタル", "信濃毎日新聞", "The New York Times",
 }
 
 
@@ -94,13 +94,23 @@ BIGNEWS_GLOBAL_QUERY = (
     "(家電 OR 住宅設備 OR 白物家電) "
     "(買収 OR 経営統合 OR 合併 OR M&A) " + BIGNEWS_NOISE_EXCLUDE
 )
-BIGNEWS_TECH_QUERY = (
-    "(家電 OR IHクッキングヒーター OR キッチン家電 OR 住宅設備 OR 省エネ住宅) "
-    "(技術革新 OR 新技術開発 OR ブレークスルー) " + BIGNEWS_NOISE_EXCLUDE
+# Curated for sharing with the IH department: new products/tech from rivals
+# (including overseas), other cooking-appliance makers, commercial-kitchen IH,
+# and notable M&A/alliances. Each theme is its own query so a quiet one can't
+# starve a busy one (see SUBCAT_RESERVED below).
+BIGNEWS_IH_PRODUCT_QUERY = (
+    "IHクッキングヒーター (新製品 OR 新発売 OR 新モデル OR ラインナップ刷新 OR 発表) " + BIGNEWS_NOISE_EXCLUDE
 )
-BIGNEWS_ENTRY_QUERY = (
-    "(住宅設備メーカー OR 家電メーカー OR キッチンメーカー) "
-    "(日本上陸 OR 日本進出 OR 日本市場参入 OR 日本初出店) " + BIGNEWS_NOISE_EXCLUDE
+BIGNEWS_IH_TECH_QUERY = (
+    "IHクッキングヒーター (新技術 OR 技術開発 OR 特許 OR イノベーション OR 次世代) " + BIGNEWS_NOISE_EXCLUDE
+)
+BIGNEWS_IH_TECH_GLOBAL_QUERY = "induction cooktop (new technology OR innovation OR breakthrough OR patent)"
+BIGNEWS_OTHER_APPLIANCE_QUERY = (
+    "調理家電 (新製品 OR 新技術 OR 新発売 OR イノベーション) " + BIGNEWS_NOISE_EXCLUDE
+)
+BIGNEWS_COMMERCIAL_IH_QUERY = (
+    "(業務用厨房 OR 給食 OR セントラルキッチン OR 社員食堂) "
+    "(IHクッキングヒーター OR IH調理 OR IHレンジ OR IH厨房) " + BIGNEWS_NOISE_EXCLUDE
 )
 TOC_QUERY = "制約理論 OR ゴールドラット OR スループット会計 OR 制約条件理論"
 BIZBOOK_QUERY = "ビジネス書 (ランキング OR ベストセラー OR 書評) -俳優 -女優 -アイドル"
@@ -142,6 +152,10 @@ def gnews(query):
     return "https://news.google.com/rss/search?q=" + urllib.parse.quote(query) + "&hl=ja&gl=JP&ceid=JP:ja"
 
 
+def gnews_en(query):
+    return "https://news.google.com/rss/search?q=" + urllib.parse.quote(query) + "&hl=en&gl=US&ceid=US:en"
+
+
 FEEDS = [
     {"url": "https://kaden.watch.impress.co.jp/data/rss/1.0/kdw/feed.rdf", "source": "家電Watch", "cat": "appliance"},
     {"url": "https://rss.itmedia.co.jp/rss/2.0/aiplus.xml", "source": "ITmedia AI+", "cat": "ai"},
@@ -156,10 +170,13 @@ FEEDS = [
     {"url": gnews(KITCHEN_QUERY), "source": None, "cat": "food"},
     {"url": gnews(AI_QUERY), "source": None, "cat": "ai"},
     {"url": gnews(FOODTECH_QUERY), "source": None, "cat": "food"},
-    {"url": gnews(BIGNEWS_QUERY), "source": None, "cat": "big_news"},
-    {"url": gnews(BIGNEWS_GLOBAL_QUERY), "source": None, "cat": "big_news"},
-    {"url": gnews(BIGNEWS_TECH_QUERY), "source": None, "cat": "big_news"},
-    {"url": gnews(BIGNEWS_ENTRY_QUERY), "source": None, "cat": "big_news"},
+    {"url": gnews(BIGNEWS_QUERY), "source": None, "cat": "big_news", "subcat": "partnership"},
+    {"url": gnews(BIGNEWS_GLOBAL_QUERY), "source": None, "cat": "big_news", "subcat": "partnership"},
+    {"url": gnews(BIGNEWS_IH_PRODUCT_QUERY), "source": None, "cat": "big_news", "subcat": "product"},
+    {"url": gnews(BIGNEWS_IH_TECH_QUERY), "source": None, "cat": "big_news", "subcat": "tech"},
+    {"url": gnews_en(BIGNEWS_IH_TECH_GLOBAL_QUERY), "source": None, "cat": "big_news", "subcat": "tech_global"},
+    {"url": gnews(BIGNEWS_OTHER_APPLIANCE_QUERY), "source": None, "cat": "big_news", "subcat": "other_appliance"},
+    {"url": gnews(BIGNEWS_COMMERCIAL_IH_QUERY), "source": None, "cat": "big_news", "subcat": "commercial"},
     {"url": gnews(TOC_QUERY), "source": None, "cat": "toc", "subcat": "core"},
     {"url": gnews(BIZBOOK_QUERY), "source": None, "cat": "toc", "subcat": "book"},
     {"url": gnews(RETAIL_QUERY), "source": None, "cat": "appliance"},
@@ -180,6 +197,10 @@ TOP_N = {"appliance": 22, "ai": 8, "magazine": 18, "food": 15, "rock": 15, "ih_f
 SUBCAT_RESERVED = {
     "toc": {"core": 6, "book": 6},
     "local_news": {"journal": 8, "kobe_shimbun": 6},
+    "big_news": {
+        "partnership": 6, "product": 6, "tech": 5, "tech_global": 5,
+        "other_appliance": 5, "commercial": 3,
+    },
 }
 
 
