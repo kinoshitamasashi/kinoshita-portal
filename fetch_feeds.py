@@ -99,14 +99,14 @@ BIGNEWS_GLOBAL_QUERY = (
 # and notable M&A/alliances. Each theme is its own query so a quiet one can't
 # starve a busy one (see SUBCAT_RESERVED below).
 BIGNEWS_IH_PRODUCT_QUERY = (
-    "IHクッキングヒーター (新製品 OR 新発売 OR 新モデル OR ラインナップ刷新 OR 発表) " + BIGNEWS_NOISE_EXCLUDE
+    "IHクッキングヒーター (新製品 OR 発売 OR 新モデル OR ラインナップ刷新 OR 発表) " + BIGNEWS_NOISE_EXCLUDE
 )
 BIGNEWS_IH_TECH_QUERY = (
     "IHクッキングヒーター (新技術 OR 技術開発 OR 特許 OR イノベーション OR 次世代) " + BIGNEWS_NOISE_EXCLUDE
 )
 BIGNEWS_IH_TECH_GLOBAL_QUERY = "induction cooktop (new technology OR innovation OR breakthrough OR patent)"
 BIGNEWS_OTHER_APPLIANCE_QUERY = (
-    "調理家電 (新製品 OR 新技術 OR 新発売 OR イノベーション) " + BIGNEWS_NOISE_EXCLUDE
+    "調理家電 (新製品 OR 新技術 OR 発売 OR イノベーション) " + BIGNEWS_NOISE_EXCLUDE
 )
 BIGNEWS_COMMERCIAL_IH_QUERY = (
     "(業務用厨房 OR 給食 OR セントラルキッチン OR 社員食堂) "
