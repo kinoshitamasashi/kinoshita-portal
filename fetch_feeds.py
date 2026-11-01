@@ -96,8 +96,9 @@ BIGNEWS_GLOBAL_QUERY = (
 )
 # Curated for sharing with the IH department: new products/tech from rivals
 # (including overseas), other cooking-appliance makers, commercial-kitchen IH,
-# and notable M&A/alliances. Each theme is its own query so a quiet one can't
-# starve a busy one (see SUBCAT_RESERVED below).
+# notable M&A/alliances, and other manufacturers' R&D-strategy case studies.
+# Each theme is its own query so a quiet one can't starve a busy one (see
+# SUBCAT_RESERVED below).
 BIGNEWS_IH_PRODUCT_QUERY = (
     "IHクッキングヒーター (新製品 OR 発売 OR 新モデル OR ラインナップ刷新 OR 発表) " + BIGNEWS_NOISE_EXCLUDE
 )
@@ -111,6 +112,16 @@ BIGNEWS_OTHER_APPLIANCE_QUERY = (
 BIGNEWS_COMMERCIAL_IH_QUERY = (
     "(業務用厨房 OR 給食 OR セントラルキッチン OR 社員食堂) "
     "(IHクッキングヒーター OR IH調理 OR IHレンジ OR IH厨房) " + BIGNEWS_NOISE_EXCLUDE
+)
+# Other manufacturers' R&D/engineering-management case studies (not limited to
+# appliances) -- e.g. how a carmaker reorganizes its development division to
+# cut dev time or concentrate resources on core tech. Useful as cross-industry
+# reference material for the department even outside IH itself.
+BIGNEWS_RND_STRATEGY_QUERY = (
+    "(自動車 OR 家電 OR 電機 OR 機械メーカー OR 部品メーカー OR 製造業) "
+    "(開発体制 OR 技術戦略 OR 開発効率 OR 研究開発) "
+    "(強化 OR 刷新 OR 効率化 OR 倍増 OR 再編) "
+    "-俳優 -女優 -アイドル -NEDO -補助金 -JICA"
 )
 TOC_QUERY = "制約理論 OR ゴールドラット OR スループット会計 OR 制約条件理論"
 BIZBOOK_QUERY = "ビジネス書 (ランキング OR ベストセラー OR 書評) -俳優 -女優 -アイドル"
@@ -177,6 +188,7 @@ FEEDS = [
     {"url": gnews_en(BIGNEWS_IH_TECH_GLOBAL_QUERY), "source": None, "cat": "big_news", "subcat": "tech_global"},
     {"url": gnews(BIGNEWS_OTHER_APPLIANCE_QUERY), "source": None, "cat": "big_news", "subcat": "other_appliance"},
     {"url": gnews(BIGNEWS_COMMERCIAL_IH_QUERY), "source": None, "cat": "big_news", "subcat": "commercial"},
+    {"url": gnews(BIGNEWS_RND_STRATEGY_QUERY), "source": None, "cat": "big_news", "subcat": "rnd_strategy"},
     {"url": gnews(TOC_QUERY), "source": None, "cat": "toc", "subcat": "core"},
     {"url": gnews(BIZBOOK_QUERY), "source": None, "cat": "toc", "subcat": "book"},
     {"url": gnews(RETAIL_QUERY), "source": None, "cat": "appliance"},
@@ -199,7 +211,7 @@ SUBCAT_RESERVED = {
     "local_news": {"journal": 8, "kobe_shimbun": 6},
     "big_news": {
         "partnership": 6, "product": 6, "tech": 5, "tech_global": 5,
-        "other_appliance": 5, "commercial": 3,
+        "other_appliance": 5, "commercial": 3, "rnd_strategy": 4,
     },
 }
 
