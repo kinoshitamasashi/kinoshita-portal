@@ -595,7 +595,7 @@
           <span class="weather-mini-icon">🌤️</span><span class="weather-mini-temp">18℃</span>
         </a>
       </div>
-      <span class="clock mono" id="clock"></span>
+      <span class="clock mono" id="clock" title="ニュース最終更新時刻">11/3 21:44</span>
     </div>
     <p class="subtitle">業界・AI・食/生活・ビジネスの最新情報をワンタップで確認</p>
     <p class="subtitle mono" id="updatedAt" style="margin-top:3px; font-size:10.5px;">記事一覧 最終更新: 2026/11/03 21:44</p>
@@ -2193,17 +2193,6 @@
 </div>
 
 <script>
-  function pad(n) { return String(n).padStart(2, '0'); }
-  function tick() {
-    var d = new Date();
-    var el = document.getElementById('clock');
-    if (el) {
-      el.textContent = (d.getMonth()+1) + '/' + d.getDate() + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes());
-    }
-  }
-  tick();
-  setInterval(tick, 15000);
-
   function runSearch(kind) {
     var kw = document.getElementById('kw').value.trim();
     var url;
