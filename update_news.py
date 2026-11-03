@@ -177,18 +177,8 @@ def main(html_path, data_path):
     else:
         print("WARNING: no big_news items, skipping (keeping existing content)", file=sys.stderr)
 
-    now_jst = datetime.now(timezone.utc).astimezone(JST)
-    timestamp = now_jst.strftime("%Y/%m/%d %H:%M")
+    timestamp = datetime.now(timezone.utc).astimezone(JST).strftime("%Y/%m/%d %H:%M")
     html = re.sub(r'記事一覧 最終更新: \d{4}/\d{2}/\d{2}(?: \d{2}:\d{2})?', f'記事一覧 最終更新: {timestamp}', html)
-
-    # Header clock shows the same news-update time (not the viewer's live
-    # clock), so it stays meaningful on a static, snapshot-based page.
-    clock_text = f"{now_jst.month}/{now_jst.day} {now_jst.strftime('%H:%M')}"
-    html = re.sub(
-        r'<span class="clock mono" id="clock">[^<]*</span>',
-        f'<span class="clock mono" id="clock">{clock_text}</span>',
-        html,
-    )
 
     with open(html_path, 'w', encoding='utf-8') as f:
         f.write(html)
