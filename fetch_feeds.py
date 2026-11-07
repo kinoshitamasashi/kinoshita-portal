@@ -142,6 +142,17 @@ POLICY_QUERY = (
     "(経済産業省 OR 国土交通省 OR 省エネ法 OR 建築物省エネ法 OR トップランナー制度)"
 )
 LOCAL_NEWS_QUERY = "site:kobe-np.co.jp (明石 OR 神戸市)"
+# Work-style / management practice articles from reputable business media --
+# personal-interest reading, distinct from the IH-department-facing big_news.
+# president.jp and logmi.jp (via its "Eight" business-card-app column) run
+# detailed, varied case studies on 1on1/マネジメント/組織改革; forbesjapan.com
+# was tried and dropped -- a single recurring "AI時代のリーダーシップ" column
+# there floods the result set and crowds out everything else.
+WORKSTYLE_QUERY = (
+    "(site:president.jp OR site:logmi.jp) "
+    "(マネジメント OR 組織改革 OR リーダーシップ OR 人材育成 OR 働き方 OR チームビルディング OR キャリア戦略 OR 1on1 OR ジョブ型) "
+    "-記事一覧 -会員登録 -ランキング -アドバンテッジ"
+)
 
 # 神戸新聞 covers everything from routine crime blotter to high school baseball;
 # only items whose title itself signals a genuinely large-scale/administrative
@@ -202,6 +213,7 @@ FEEDS = [
     {"url": gnews(BIGNEWS_RECALL_QUERY), "source": None, "cat": "big_news", "subcat": "recall"},
     {"url": gnews(TOC_QUERY), "source": None, "cat": "toc", "subcat": "core"},
     {"url": gnews(BIZBOOK_QUERY), "source": None, "cat": "toc", "subcat": "book"},
+    {"url": gnews(WORKSTYLE_QUERY), "source": None, "cat": "toc", "subcat": "worklife"},
     {"url": gnews(RETAIL_QUERY), "source": None, "cat": "appliance"},
     {"url": gnews(POLICY_QUERY), "source": None, "cat": "policy"},
     {"url": gnews(LOCAL_NEWS_QUERY), "source": None, "cat": "local_news", "subcat": "kobe_shimbun"},
@@ -209,7 +221,7 @@ FEEDS = [
     {"url": "https://kobe-journal.com/archives/tag/%E9%96%8B%E5%BA%97%EF%BC%8F%E3%82%AA%E3%83%BC%E3%83%97%E3%83%B3/feed/", "source": "神戸ジャーナル", "cat": "local_news", "subcat": "journal"},
 ]
 
-TOP_N = {"appliance": 22, "ai": 8, "magazine": 18, "food": 15, "rock": 15, "ih_focus": 20, "big_news": 30, "toc": 15, "policy": 15, "local_news": 18}
+TOP_N = {"appliance": 22, "ai": 8, "magazine": 18, "food": 15, "rock": 15, "ih_focus": 20, "big_news": 30, "toc": 21, "policy": 15, "local_news": 18}
 
 # Some categories blend subtopics with very different publish frequency (a
 # plain recency sort lets the frequent one crowd the rare one out entirely),
@@ -218,7 +230,7 @@ TOP_N = {"appliance": 22, "ai": 8, "magazine": 18, "food": 15, "rock": 15, "ih_f
 # weekly. "local_news": journal store-opening posts are frequent, genuinely
 # big Kobe Shimbun stories are rare.
 SUBCAT_RESERVED = {
-    "toc": {"core": 6, "book": 6},
+    "toc": {"core": 6, "book": 6, "worklife": 7},
     "local_news": {"journal": 8, "kobe_shimbun": 6},
     "big_news": {
         "product": 5, "tech": 4, "tech_global": 2, "other_appliance": 4,
