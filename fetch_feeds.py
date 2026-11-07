@@ -85,34 +85,22 @@ FOODTECH_QUERY = "フードテック OR 自動調理 OR 調理家電"
 # the recognizable noise pattern rather than chase each one individually.
 BIGNEWS_NOISE_EXCLUDE = "-コンテスト -児童 -青少年"
 
-BIGNEWS_QUERY = (
-    "(家電メーカー OR 住宅メーカー OR キッチンメーカー OR 家電量販店 OR 住宅設備 OR IHクッキングヒーター) "
-    "(買収 OR 経営統合 OR 合併 OR 資本提携) " + BIGNEWS_NOISE_EXCLUDE
-)
-BIGNEWS_GLOBAL_QUERY = (
-    "(Samsung OR LG電子 OR Whirlpool OR Electrolux OR Haier OR ハイアール OR Midea OR 美的 OR GEアプライアンス) "
-    "(家電 OR 住宅設備 OR 白物家電) "
-    "(買収 OR 経営統合 OR 合併 OR M&A) " + BIGNEWS_NOISE_EXCLUDE
-)
-# Curated for sharing with the IH department: genuinely big/strategic items
-# only (M&A, cross-industry R&D-strategy case studies, overseas competitor
-# tech, core-component industry trends, recalls). Routine single-model
-# product/tech announcements are intentionally NOT tracked here -- they're
-# already fully covered (and more completely) in the per-category lists
-# (ih_focus, food, etc.), so including them here would just duplicate that
-# content under a different heading.
+# Curated for sharing with the IH department: product/technology trends and
+# genuinely big industry items. M&A/経営統合 deals and cross-industry
+# R&D-management-strategy case studies are intentionally NOT tracked here --
+# they skew toward corporate/management topics rather than engineering
+# content the department can actually use.
 # Each theme is its own query so a quiet one can't starve a busy one (see
 # SUBCAT_RESERVED below).
+BIGNEWS_IH_PRODUCT_QUERY = (
+    "IHクッキングヒーター (新製品 OR 発売 OR 新モデル OR ラインナップ刷新 OR 発表) " + BIGNEWS_NOISE_EXCLUDE
+)
+BIGNEWS_IH_TECH_QUERY = (
+    "IHクッキングヒーター (新技術 OR 技術開発 OR 特許 OR イノベーション OR 次世代) " + BIGNEWS_NOISE_EXCLUDE
+)
 BIGNEWS_IH_TECH_GLOBAL_QUERY = "induction cooktop (new technology OR innovation OR breakthrough OR patent) -review -rating -rated -best"
-# Other manufacturers' R&D/engineering-management case studies (not limited to
-# appliances) -- e.g. how a carmaker reorganizes its development division to
-# cut dev time or concentrate resources on core tech. Useful as cross-industry
-# reference material for the department even outside IH itself.
-BIGNEWS_RND_STRATEGY_QUERY = (
-    "(自動車 OR 家電 OR 電機 OR 機械メーカー OR 部品メーカー OR 製造業) "
-    "(開発体制 OR 技術戦略 OR 開発効率 OR 研究開発) "
-    "(強化 OR 刷新 OR 効率化 OR 倍増 OR 再編) "
-    "-俳優 -女優 -アイドル -NEDO -補助金 -JICA"
+BIGNEWS_OTHER_APPLIANCE_QUERY = (
+    "調理家電 (新製品 OR 新技術 OR 発売 OR イノベーション) " + BIGNEWS_NOISE_EXCLUDE
 )
 # Power semiconductor (SiC/GaN) progress -- the core component behind IH
 # inverter efficiency and cost, tracked across the whole industry (not just
@@ -204,10 +192,10 @@ FEEDS = [
     {"url": gnews(KITCHEN_QUERY), "source": None, "cat": "food"},
     {"url": gnews(AI_QUERY), "source": None, "cat": "ai"},
     {"url": gnews(FOODTECH_QUERY), "source": None, "cat": "food"},
-    {"url": gnews(BIGNEWS_QUERY), "source": None, "cat": "big_news", "subcat": "partnership"},
-    {"url": gnews(BIGNEWS_GLOBAL_QUERY), "source": None, "cat": "big_news", "subcat": "partnership"},
+    {"url": gnews(BIGNEWS_IH_PRODUCT_QUERY), "source": None, "cat": "big_news", "subcat": "product"},
+    {"url": gnews(BIGNEWS_IH_TECH_QUERY), "source": None, "cat": "big_news", "subcat": "tech"},
     {"url": gnews_en(BIGNEWS_IH_TECH_GLOBAL_QUERY), "source": None, "cat": "big_news", "subcat": "tech_global"},
-    {"url": gnews(BIGNEWS_RND_STRATEGY_QUERY), "source": None, "cat": "big_news", "subcat": "rnd_strategy"},
+    {"url": gnews(BIGNEWS_OTHER_APPLIANCE_QUERY), "source": None, "cat": "big_news", "subcat": "other_appliance"},
     {"url": gnews(BIGNEWS_POWER_SEMI_QUERY), "source": None, "cat": "big_news", "subcat": "power_semi"},
     {"url": gnews(BIGNEWS_GLASS_QUERY), "source": None, "cat": "big_news", "subcat": "glass"},
     {"url": gnews(BIGNEWS_ENERGY_SHIFT_QUERY), "source": None, "cat": "big_news", "subcat": "energy_shift"},
@@ -221,7 +209,7 @@ FEEDS = [
     {"url": "https://kobe-journal.com/archives/tag/%E9%96%8B%E5%BA%97%EF%BC%8F%E3%82%AA%E3%83%BC%E3%83%97%E3%83%B3/feed/", "source": "神戸ジャーナル", "cat": "local_news", "subcat": "journal"},
 ]
 
-TOP_N = {"appliance": 22, "ai": 8, "magazine": 18, "food": 15, "rock": 15, "ih_focus": 20, "big_news": 24, "toc": 15, "policy": 15, "local_news": 18}
+TOP_N = {"appliance": 22, "ai": 8, "magazine": 18, "food": 15, "rock": 15, "ih_focus": 20, "big_news": 30, "toc": 15, "policy": 15, "local_news": 18}
 
 # Some categories blend subtopics with very different publish frequency (a
 # plain recency sort lets the frequent one crowd the rare one out entirely),
@@ -233,7 +221,7 @@ SUBCAT_RESERVED = {
     "toc": {"core": 6, "book": 6},
     "local_news": {"journal": 8, "kobe_shimbun": 6},
     "big_news": {
-        "partnership": 5, "tech_global": 2, "rnd_strategy": 3,
+        "product": 5, "tech": 4, "tech_global": 2, "other_appliance": 4,
         "power_semi": 3, "glass": 1, "energy_shift": 2, "recall": 2,
     },
 }
