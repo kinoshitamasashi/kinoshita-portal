@@ -94,25 +94,16 @@ BIGNEWS_GLOBAL_QUERY = (
     "(家電 OR 住宅設備 OR 白物家電) "
     "(買収 OR 経営統合 OR 合併 OR M&A) " + BIGNEWS_NOISE_EXCLUDE
 )
-# Curated for sharing with the IH department: new products/tech from rivals
-# (including overseas), other cooking-appliance makers, commercial-kitchen IH,
-# notable M&A/alliances, and other manufacturers' R&D-strategy case studies.
+# Curated for sharing with the IH department: genuinely big/strategic items
+# only (M&A, cross-industry R&D-strategy case studies, overseas competitor
+# tech, core-component industry trends, recalls). Routine single-model
+# product/tech announcements are intentionally NOT tracked here -- they're
+# already fully covered (and more completely) in the per-category lists
+# (ih_focus, food, etc.), so including them here would just duplicate that
+# content under a different heading.
 # Each theme is its own query so a quiet one can't starve a busy one (see
 # SUBCAT_RESERVED below).
-BIGNEWS_IH_PRODUCT_QUERY = (
-    "IHクッキングヒーター (新製品 OR 発売 OR 新モデル OR ラインナップ刷新 OR 発表) " + BIGNEWS_NOISE_EXCLUDE
-)
-BIGNEWS_IH_TECH_QUERY = (
-    "IHクッキングヒーター (新技術 OR 技術開発 OR 特許 OR イノベーション OR 次世代) " + BIGNEWS_NOISE_EXCLUDE
-)
-BIGNEWS_IH_TECH_GLOBAL_QUERY = "induction cooktop (new technology OR innovation OR breakthrough OR patent)"
-BIGNEWS_OTHER_APPLIANCE_QUERY = (
-    "調理家電 (新製品 OR 新技術 OR 発売 OR イノベーション) " + BIGNEWS_NOISE_EXCLUDE
-)
-BIGNEWS_COMMERCIAL_IH_QUERY = (
-    "(業務用厨房 OR 給食 OR セントラルキッチン OR 社員食堂) "
-    "(IHクッキングヒーター OR IH調理 OR IHレンジ OR IH厨房) " + BIGNEWS_NOISE_EXCLUDE
-)
+BIGNEWS_IH_TECH_GLOBAL_QUERY = "induction cooktop (new technology OR innovation OR breakthrough OR patent) -review -rating -rated -best"
 # Other manufacturers' R&D/engineering-management case studies (not limited to
 # appliances) -- e.g. how a carmaker reorganizes its development division to
 # cut dev time or concentrate resources on core tech. Useful as cross-industry
@@ -130,7 +121,7 @@ BIGNEWS_RND_STRATEGY_QUERY = (
 BIGNEWS_POWER_SEMI_QUERY = (
     "(SiC OR GaN OR 炭化ケイ素 OR 窒化ガリウム OR パワー半導体 OR パワーデバイス) "
     "(開発 OR 量産 OR 新製品 OR 性能向上 OR 採用 OR 技術) "
-    "-NEDO -補助金 -決算 -株価 -主演 -俳優 -女優 -タイムセール -Amazon"
+    "-NEDO -補助金 -市場規模 -市場レポート -QYResearch -敵対的 -タイムセール -教科書 -イベント開催"
 )
 # Crystallized-glass / ceramic top-plate material technology -- the other
 # core IH component. Niche and low-frequency by nature (material science for
@@ -215,11 +206,7 @@ FEEDS = [
     {"url": gnews(FOODTECH_QUERY), "source": None, "cat": "food"},
     {"url": gnews(BIGNEWS_QUERY), "source": None, "cat": "big_news", "subcat": "partnership"},
     {"url": gnews(BIGNEWS_GLOBAL_QUERY), "source": None, "cat": "big_news", "subcat": "partnership"},
-    {"url": gnews(BIGNEWS_IH_PRODUCT_QUERY), "source": None, "cat": "big_news", "subcat": "product"},
-    {"url": gnews(BIGNEWS_IH_TECH_QUERY), "source": None, "cat": "big_news", "subcat": "tech"},
     {"url": gnews_en(BIGNEWS_IH_TECH_GLOBAL_QUERY), "source": None, "cat": "big_news", "subcat": "tech_global"},
-    {"url": gnews(BIGNEWS_OTHER_APPLIANCE_QUERY), "source": None, "cat": "big_news", "subcat": "other_appliance"},
-    {"url": gnews(BIGNEWS_COMMERCIAL_IH_QUERY), "source": None, "cat": "big_news", "subcat": "commercial"},
     {"url": gnews(BIGNEWS_RND_STRATEGY_QUERY), "source": None, "cat": "big_news", "subcat": "rnd_strategy"},
     {"url": gnews(BIGNEWS_POWER_SEMI_QUERY), "source": None, "cat": "big_news", "subcat": "power_semi"},
     {"url": gnews(BIGNEWS_GLASS_QUERY), "source": None, "cat": "big_news", "subcat": "glass"},
@@ -234,7 +221,7 @@ FEEDS = [
     {"url": "https://kobe-journal.com/archives/tag/%E9%96%8B%E5%BA%97%EF%BC%8F%E3%82%AA%E3%83%BC%E3%83%97%E3%83%B3/feed/", "source": "神戸ジャーナル", "cat": "local_news", "subcat": "journal"},
 ]
 
-TOP_N = {"appliance": 22, "ai": 8, "magazine": 18, "food": 15, "rock": 15, "ih_focus": 20, "big_news": 50, "toc": 15, "policy": 15, "local_news": 18}
+TOP_N = {"appliance": 22, "ai": 8, "magazine": 18, "food": 15, "rock": 15, "ih_focus": 20, "big_news": 24, "toc": 15, "policy": 15, "local_news": 18}
 
 # Some categories blend subtopics with very different publish frequency (a
 # plain recency sort lets the frequent one crowd the rare one out entirely),
@@ -246,9 +233,8 @@ SUBCAT_RESERVED = {
     "toc": {"core": 6, "book": 6},
     "local_news": {"journal": 8, "kobe_shimbun": 6},
     "big_news": {
-        "partnership": 6, "product": 6, "tech": 5, "tech_global": 5,
-        "other_appliance": 5, "commercial": 3, "rnd_strategy": 4,
-        "power_semi": 5, "glass": 2, "energy_shift": 3, "recall": 3,
+        "partnership": 5, "tech_global": 2, "rnd_strategy": 3,
+        "power_semi": 3, "glass": 1, "energy_shift": 2, "recall": 2,
     },
 }
 
