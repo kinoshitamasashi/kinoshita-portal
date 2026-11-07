@@ -123,6 +123,38 @@ BIGNEWS_RND_STRATEGY_QUERY = (
     "(強化 OR 刷新 OR 効率化 OR 倍増 OR 再編) "
     "-俳優 -女優 -アイドル -NEDO -補助金 -JICA"
 )
+# Power semiconductor (SiC/GaN) progress -- the core component behind IH
+# inverter efficiency and cost, tracked across the whole industry (not just
+# appliance makers) since most of the innovation happens upstream at chip
+# makers.
+BIGNEWS_POWER_SEMI_QUERY = (
+    "(SiC OR GaN OR 炭化ケイ素 OR 窒化ガリウム OR パワー半導体 OR パワーデバイス) "
+    "(開発 OR 量産 OR 新製品 OR 性能向上 OR 採用 OR 技術) "
+    "-NEDO -補助金 -決算 -株価 -主演 -俳優 -女優 -タイムセール -Amazon"
+)
+# Crystallized-glass / ceramic top-plate material technology -- the other
+# core IH component. Niche and low-frequency by nature (material science for
+# cooktops specifically), so it gets a small reserved floor rather than being
+# expected to compete with high-volume themes on recency alone.
+BIGNEWS_GLASS_QUERY = (
+    "(結晶化ガラス OR ガラスセラミックス OR セラミックトップ OR トッププレート) "
+    "(IH OR コンロ OR 調理器) "
+    "-バイク -オートバイ -保存容器 -ランキング -コストコ -レシピ"
+)
+# All-electric vs. gas-equipment policy/regulatory trends -- the social
+# tailwind (or headwind) shaping IH adoption, as distinct from product news.
+BIGNEWS_ENERGY_SHIFT_QUERY = (
+    "(オール電化 OR 電化住宅 OR ガス機器 OR 都市ガス OR LPガス) "
+    "(規制 OR 政策 OR 脱炭素 OR 法改正 OR 新基準 OR 電化シフト OR 普及率 OR シェア OR 動向) "
+    "-補助金 -エコキュート -のご案内 -について -支援事業 -料金負担軽減 -料金高騰"
+)
+# Other makers' cooking/water-heating appliance recalls and defects -- design
+# lessons from the field, not general consumer-safety awareness pieces.
+BIGNEWS_RECALL_QUERY = (
+    "(IHクッキングヒーター OR 電磁調理器 OR 調理家電 OR キッチン家電 OR ガスコンロ OR 電気コンロ OR 給湯器) "
+    "(リコール OR 自主回収 OR 製品回収 OR 出荷停止 OR 無償修理) "
+    "-ごみ -ゴミ -資源回収 -もったいない -リサイクル"
+)
 TOC_QUERY = "制約理論 OR ゴールドラット OR スループット会計 OR 制約条件理論"
 BIZBOOK_QUERY = "ビジネス書 (ランキング OR ベストセラー OR 書評) -俳優 -女優 -アイドル"
 RETAIL_QUERY = "家電量販店 (新業態 OR ビジネスモデル OR 新事業 OR 事業変革)"
@@ -189,6 +221,10 @@ FEEDS = [
     {"url": gnews(BIGNEWS_OTHER_APPLIANCE_QUERY), "source": None, "cat": "big_news", "subcat": "other_appliance"},
     {"url": gnews(BIGNEWS_COMMERCIAL_IH_QUERY), "source": None, "cat": "big_news", "subcat": "commercial"},
     {"url": gnews(BIGNEWS_RND_STRATEGY_QUERY), "source": None, "cat": "big_news", "subcat": "rnd_strategy"},
+    {"url": gnews(BIGNEWS_POWER_SEMI_QUERY), "source": None, "cat": "big_news", "subcat": "power_semi"},
+    {"url": gnews(BIGNEWS_GLASS_QUERY), "source": None, "cat": "big_news", "subcat": "glass"},
+    {"url": gnews(BIGNEWS_ENERGY_SHIFT_QUERY), "source": None, "cat": "big_news", "subcat": "energy_shift"},
+    {"url": gnews(BIGNEWS_RECALL_QUERY), "source": None, "cat": "big_news", "subcat": "recall"},
     {"url": gnews(TOC_QUERY), "source": None, "cat": "toc", "subcat": "core"},
     {"url": gnews(BIZBOOK_QUERY), "source": None, "cat": "toc", "subcat": "book"},
     {"url": gnews(RETAIL_QUERY), "source": None, "cat": "appliance"},
@@ -198,7 +234,7 @@ FEEDS = [
     {"url": "https://kobe-journal.com/archives/tag/%E9%96%8B%E5%BA%97%EF%BC%8F%E3%82%AA%E3%83%BC%E3%83%97%E3%83%B3/feed/", "source": "神戸ジャーナル", "cat": "local_news", "subcat": "journal"},
 ]
 
-TOP_N = {"appliance": 22, "ai": 8, "magazine": 18, "food": 15, "rock": 15, "ih_focus": 20, "big_news": 35, "toc": 15, "policy": 15, "local_news": 18}
+TOP_N = {"appliance": 22, "ai": 8, "magazine": 18, "food": 15, "rock": 15, "ih_focus": 20, "big_news": 50, "toc": 15, "policy": 15, "local_news": 18}
 
 # Some categories blend subtopics with very different publish frequency (a
 # plain recency sort lets the frequent one crowd the rare one out entirely),
@@ -212,6 +248,7 @@ SUBCAT_RESERVED = {
     "big_news": {
         "partnership": 6, "product": 6, "tech": 5, "tech_global": 5,
         "other_appliance": 5, "commercial": 3, "rnd_strategy": 4,
+        "power_semi": 5, "glass": 2, "energy_shift": 3, "recall": 3,
     },
 }
 
