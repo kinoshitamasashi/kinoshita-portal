@@ -142,6 +142,13 @@ POLICY_QUERY = (
     "(経済産業省 OR 国土交通省 OR 省エネ法 OR 建築物省エネ法 OR トップランナー制度)"
 )
 LOCAL_NEWS_QUERY = "site:kobe-np.co.jp (明石 OR 神戸市)"
+# Consumer survey / questionnaire articles tracking shifts in food culture and
+# eating habits -- useful as business-planning signal (menu/product direction),
+# distinct from the recipe and appliance-product noise already in "food".
+FOOD_CULTURE_SURVEY_QUERY = (
+    "(食生活 OR 食卓 OR 食文化 OR 内食 OR 中食) "
+    "(意識調査 OR 実態調査 OR アンケート調査 OR 消費者調査 OR トレンド調査)"
+)
 # Work-style / management practice articles from reputable business media --
 # personal-interest reading, distinct from the IH-department-facing big_news.
 # president.jp and logmi.jp (via its "Eight" business-card-app column) run
@@ -215,13 +222,14 @@ FEEDS = [
     {"url": gnews(BIZBOOK_QUERY), "source": None, "cat": "toc", "subcat": "book"},
     {"url": gnews(WORKSTYLE_QUERY), "source": None, "cat": "toc", "subcat": "worklife"},
     {"url": gnews(RETAIL_QUERY), "source": None, "cat": "appliance"},
+    {"url": gnews(FOOD_CULTURE_SURVEY_QUERY), "source": None, "cat": "food", "subcat": "survey"},
     {"url": gnews(POLICY_QUERY), "source": None, "cat": "policy"},
     {"url": gnews(LOCAL_NEWS_QUERY), "source": None, "cat": "local_news", "subcat": "kobe_shimbun"},
     {"url": "https://akashi-journal.com/category/openclose/feed/", "source": "明石じゃーなる", "cat": "local_news", "subcat": "journal"},
     {"url": "https://kobe-journal.com/archives/tag/%E9%96%8B%E5%BA%97%EF%BC%8F%E3%82%AA%E3%83%BC%E3%83%97%E3%83%B3/feed/", "source": "神戸ジャーナル", "cat": "local_news", "subcat": "journal"},
 ]
 
-TOP_N = {"appliance": 22, "ai": 8, "magazine": 18, "food": 15, "rock": 15, "ih_focus": 20, "big_news": 30, "toc": 21, "policy": 15, "local_news": 18}
+TOP_N = {"appliance": 22, "ai": 8, "magazine": 18, "food": 17, "rock": 15, "ih_focus": 20, "big_news": 30, "toc": 21, "policy": 15, "local_news": 18}
 
 # Some categories blend subtopics with very different publish frequency (a
 # plain recency sort lets the frequent one crowd the rare one out entirely),
@@ -231,6 +239,7 @@ TOP_N = {"appliance": 22, "ai": 8, "magazine": 18, "food": 15, "rock": 15, "ih_f
 # big Kobe Shimbun stories are rare.
 SUBCAT_RESERVED = {
     "toc": {"core": 6, "book": 6, "worklife": 7},
+    "food": {"survey": 3},
     "local_news": {"journal": 8, "kobe_shimbun": 6},
     "big_news": {
         "product": 5, "tech": 4, "tech_global": 2, "other_appliance": 4,
