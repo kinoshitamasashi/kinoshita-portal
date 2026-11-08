@@ -32,7 +32,12 @@ SIMILARITY_THRESHOLD = 0.85
 
 TV_CONTEXT = "(テレビ OR 放送 OR 番組) (特集 OR 紹介)"
 TV_QUERY_1 = f"(IHクッキングヒーター OR IH調理器 OR 電磁調理器) {TV_CONTEXT}"
-TV_QUERY_2 = f"(調理家電 OR キッチン家電) {TV_CONTEXT}"
+# Bare "キッチン" alone pulls in restaurant names, drama titles and kids'
+# shows (e.g. a cafe literally named "...キッチン", "キッチン戦隊クックルン"),
+# so kitchen coverage is scoped to systems/renovation rather than the bare
+# word; plain kitchen sundries (100円ショップ goods etc.) are left out as
+# too far from the department's actual interest.
+TV_QUERY_2 = f"(調理家電 OR キッチン家電 OR システムキッチン OR キッチンリフォーム) {TV_CONTEXT}"
 PUBDATE_MAX_AGE_DAYS = 45  # drop old recurring-segment articles resurfaced by
                            # keyword match; recap coverage is only useful here
                            # while reasonably recent
