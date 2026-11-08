@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Splices pre-fetched TV-preview items (tv_preview.json, from
-fetch_tv_preview.py) into the "テレビ特集予告" card in index.html.
+Splices pre-fetched TV tie-in items (tv_preview.json, from
+fetch_tv_preview.py) into the "テレビで紹介された調理家電" card in index.html.
+These are recap/tie-in articles about segments that already aired, not
+advance previews (see fetch_tv_preview.py for why).
 
 Usage:
     python3 update_tv_preview.py index.html tv_preview.json
@@ -36,7 +38,7 @@ def build_row(it):
         f'<span class="sched-date"><span class="sched-day">{d.day}</span>'
         f'<span class="sched-dow">{WEEKDAY_JA[d.weekday()]}</span></span>'
     )
-    sub = escape(it["source"]) + " ・ ニュース予告"
+    sub = escape(it["source"]) + " ・ 放送済み"
     url = escape(it["link"], quote=True)
     return (
         f'        <a class="sched-row" target="_blank" rel="noopener noreferrer" href="{url}">\n'
@@ -67,7 +69,7 @@ def replace_tv_preview_body(html, new_rows, count):
     if new_rows:
         body = '\n' + new_rows + '      '
     else:
-        body = '\n        <p class="tv-preview-empty">直近10日で該当する特集予定は見つかりませんでした。</p>\n      '
+        body = '\n        <p class="tv-preview-empty">直近で放送された調理家電の紹介記事は見つかりませんでした。</p>\n      '
     html = html[:body_tag_end] + body + html[close_start:]
 
     count_label = f"{count}件" if count else "情報なし"
