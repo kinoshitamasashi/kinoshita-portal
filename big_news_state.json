@@ -1,5 +1,12 @@
 [
   {
+    "title": "「12インチ貼り合わせSiC基板」世界初の開発成功…住友金属鉱山、サンプル出荷（ニュースイッチ）",
+    "link": "https://news.google.com/rss/articles/CBMif0FVX3lxTE5iQ1JTeHpxZ0hoQy0xQmNQbWl0S1djd0xURXpianRVT3dKTE94ZElpNkI3YndNNURndUtGdXN4YmtqYTBUM2t1cC1Zcm1rMHlwNnRBcm10WENTOGVLcV9zM0FsX1JkMFh0LUpueHgzd21ZRm9sclZJRGhKV2Zyd3c?oc=5",
+    "date": "2026-11-09",
+    "source": "Yahoo!ニュース",
+    "_subcat": "power_semi"
+  },
+  {
     "title": "SiC・GaNを超えるバンドギャップ、次世代パワー半導体の可能性を開く新材料が登場",
     "link": "https://news.google.com/rss/articles/CBMid0FVX3lxTE1YNGZteFM2S2pxeW9zSWE4WVpKT084SXQ3UVMtSEtHY29NLTZYV29HVnVwRU5zZm9SbExwVHRQNmNaRmJqUVNUQl93cHg0d2tib2RlVGNMMUppbVFuZUZSWU5GazlQSFB4UUhIWkkza3dfZVZ4eWJj?oc=5",
     "date": "2026-11-06",
@@ -16,6 +23,13 @@
     "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE03M3ZERWI4bEZvMWhObDdVc082OVYzMkljZ0xReExZQlVuZ3ZWZHpHWEJNejdwTEE4dEtrUmJNd1ZVYTBBcFUxQVU2NkVLQ3RZUUZMb2RmUE1xV29xektINi1TTWotczB1?oc=5",
     "date": "2026-11-05",
     "source": "マイナビニュース"
+  },
+  {
+    "title": "水素コンロの家庭利用を検証 積水ハウス、ノーリツ、ハーマンの3社で共同研究を開始 ～家庭における水素エネルギーの利用拡大へ～",
+    "link": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTFBnWmpVWHNSa2JoZkRoSHJHdjZwM0lrdWpVc0VWYUxDSS1DdndwSEpKVDBUVE5qdXFsSV8yOC1qLVBKM1E4YzhFWXFDQUVfcmJWdUtfMWZYNF9hQnpCWHdjZlZnWUh2VEE?oc=5",
+    "date": "2026-11-05",
+    "source": "Infoseek",
+    "_subcat": "gas_tech"
   },
   {
     "title": "レゾナックはなぜ「今」300mm SiC基板を開発したのか（EE Times Japan）",
@@ -54,10 +68,31 @@
     "source": "EE Times Japan"
   },
   {
+    "title": "ラグジュアリーなコンロ発売、熱変色抑え輝き続くゴトクを採用",
+    "link": "https://news.google.com/rss/articles/CBMiUkFVX3lxTFBNa0YwTlVMN0FDOU5xSkFReXY1dWVqVENDY2kwTWdjUUxlanM0ZHdyNS0zc0dMdWNZNU9SMjVLdE5NOFlGRU9vREpFbVNxYnBRS1E?oc=5",
+    "date": "2026-10-29",
+    "source": "新建ハウジング",
+    "_subcat": "gas_product"
+  },
+  {
     "title": "Infineon、「世界初」の300mm GaNパワー半導体量産施設を新設へ：27年末までに生産開始",
     "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTFB3b0dWNm0wbV93V3g1V09pVFk5TWo3N0liUzQzdjJtRDVuLWllcXZIUVFCREx4aTVONDFWYVJOanltWHNNOTBpUnZVS296N21TZ1h3UzlCRnAwQ0Z2WDRaLTB6dEI2Rnp6NXVJRDBfZw?oc=5",
     "date": "2026-10-27",
     "source": "EE Times Japan"
+  },
+  {
+    "title": "人気のビルトインガスコンロ「WITHNA（ウィズナ）」ヤマダオリジナル天板カラー 発売",
+    "link": "https://news.google.com/rss/articles/CBMickFVX3lxTFBoNWYwN3FCZzhhWGxMOE9ESDdaLXNtcWJVMXNHQ1FfT0ZHRk51SlppS29CVGZqUWxSSDkxc0R4cG8wUk94SEFfNUlrQ05qS21HVFRyaldwZ3hqWGhlZ194RkV5bHBOU2M0MElZWldUaktBUQ?oc=5",
+    "date": "2026-10-26",
+    "source": "Infoseek",
+    "_subcat": "gas_product"
+  },
+  {
+    "title": "コンロの「自動運転」や「自動ブレーキ」へ、リンナイがカメラとAIで調理支援：CEATEC 2026",
+    "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTE5kQUVUeVBMWmVvTVJFZ3A2VTU5R2J4ZmFkRU9LeWdNQ25Wbk1PSENiVHMzX0xLRjhFN3FQb2pwOFZrZzBRZ25GZnlOaVljMmxnMGRBMGFnWlhGZmhmS08zQ3pOdkhKQng1ejA1VU5UUQ?oc=5",
+    "date": "2026-10-20",
+    "source": "MONOist",
+    "_subcat": "gas_tech"
   },
   {
     "title": "IHコンロ汚れ防止マットの新提案。キッチン空間になじむ『IHマットSOFT グレー ラウンドスクエア』新発売",
@@ -88,11 +123,5 @@
     "link": "https://news.google.com/rss/articles/CBMikwJBVV95cUxNdTFrdlREN193SVIwVmlaOGs4SW1Da0pXd3BxX0U5eW1UN0VIdEtSSDlhSC1pT1c0LVNPaVlTVmlhN2lyeFlfZEp4VEpsNzVsa3FXbXJzemxOOXZSanVjb1lhck51U1laaV9wYUF4NjJVMUxhS1NQVU40ZVJJeE1oQWowaHhnNVBUT0pOWXZ5NjNiUjl0YjhraXItRm1pTFF2akpHdk5xYm50MktaTThpeWFiQ2w1VG9VU2kxUUU3aXQ4ckgtQXczcDhlMEd6X0tpUEF2TDBybmcxQU1QOHVxSmlsZ1RSTlJEMEs0QWlCQmNOY2lkS0lDT2k1QU0tdnYwQ0ZfU2tWaVhMTmxiN3MxUDhvVdIBmAJBVV95cUxQNGRLREVaamd4SFBqUHgzdzllOUNRakdUQS1JYVN0cEdrZXRsLUg0S2otUkdBeVpSQVQtX0M5WEZnMTVVNWhweDFjcllQdHZLVllrWFBBcjJqd0IxNnJSREstbVRjUTZURko0cU1uWFVRZHJpTFBVWXJ3cktYMFlLUTR1MzFsZzNhY1BMN2o5WGZVZ3hxcWIycnQ3MmtMTXZMdXZDZVRuaEtaWk84Z1gxcXA4RjZCeFpDOF81QVlMTUVHZlNidUtvbWF6d0xlbl80Qk9ySjM4TWdGZEE5aFNZSTdRVzVCM2NHMVZfY0NRcU5hcW1MM25ocWR4c3pxbTJrV2tueEdLekUzbGJXZXBBNFF6U2RKRl9M?oc=5",
     "date": "2026-10-14",
     "source": "The Manila Times"
-  },
-  {
-    "title": "AIデータセンターの800VDC化へ InfineonとEatonが協業：SiCパワーデバイスで効率／電力密度を向上",
-    "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTE1iX2NNVE5kRV9PWmVJNm45WjhFSjRzSmprUkdoaEcxMnBLd2hSUGdGNnFadEd2TGt1SlhQMlBEVEtFYmd3WHBZVUFqRVk2eVVUZXdqYVhuMG5wa3RObzBNYWNucWNoal9mRVBNUlUzRQ?oc=5",
-    "date": "2026-10-09",
-    "source": "EE Times Japan"
   }
 ]
