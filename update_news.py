@@ -42,6 +42,26 @@ CATEGORY_LABEL = {
 HIGHLIGHTS_PER_CAT = 2
 HIGHLIGHTS_TOTAL = 8
 BIGNEWS_DISPLAY_CAP = 20
+# Gas-stove items earn a reserved floor here too, not just in the
+# fetch-side retention pool -- otherwise a quiet week for IH-specific
+# subcats could still crowd gas items out of the displayed top 20 by
+# pure recency.
+BIGNEWS_DISPLAY_RESERVED = {"gas_product": 2, "gas_tech": 1}
+
+
+def apply_bignews_display_reservation(items, reserved, cap):
+    order = {id(it): i for i, it in enumerate(items)}
+    selected = []
+    for subcat, floor in reserved.items():
+        bucket = [it for it in items if it.get("_subcat") == subcat]
+        selected += bucket[:floor]
+    remaining = cap - len(selected)
+    if remaining > 0:
+        selected_ids = {id(it) for it in selected}
+        leftover = [it for it in items if id(it) not in selected_ids]
+        selected += leftover[:remaining]
+    selected.sort(key=lambda x: order[id(x)])
+    return selected
 
 
 def build_rows(items):
@@ -171,7 +191,9 @@ def main(html_path, data_path):
         raise RuntimeError("no highlight items generated - refusing to wipe existing content")
     html = replace_highlights_body(html, highlight_rows)
 
-    big_news_items = data.get("big_news", [])[:BIGNEWS_DISPLAY_CAP]
+    big_news_items = apply_bignews_display_reservation(
+        data.get("big_news", []), BIGNEWS_DISPLAY_RESERVED, BIGNEWS_DISPLAY_CAP
+    )
     if big_news_items:
         html = replace_bignews_body(html, build_rows(big_news_items))
     else:
