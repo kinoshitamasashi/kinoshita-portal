@@ -405,7 +405,8 @@ def main(out_path):
             result[cat] = deduped[:TOP_N[cat]]
 
         for it in result[cat]:
-            it.pop("_subcat", None)
+            if cat != "big_news":
+                it.pop("_subcat", None)
 
         if not result[cat]:
             errors.append(f"category '{cat}' ended up empty")
