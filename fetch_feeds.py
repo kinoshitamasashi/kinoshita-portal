@@ -206,6 +206,26 @@ def is_too_far_east(title):
     return any(w in title for w in TOO_FAR_WARDS)
 
 
+# IH-relevant power semiconductor news only -- Google News can't filter by
+# wattage in the query itself, so articles naming an explicit low wattage
+# (e.g. "650W電源") are dropped here after fetch. Only acts when a wattage
+# figure is actually present and ALL such figures are below the 1.5kW floor;
+# articles with no wattage mentioned (most process/material-tech stories)
+# are left alone.
+WATTAGE_PATTERN = re.compile(r"(\d+(?:\.\d+)?)\s*([kK][wW]|[wW])(?![a-zA-Z])")
+LOW_WATTAGE_FLOOR = 1500
+
+
+def is_low_wattage(title):
+    watts = []
+    for value, unit in WATTAGE_PATTERN.findall(title):
+        v = float(value)
+        if unit.lower() == "kw":
+            v *= 1000
+        watts.append(v)
+    return bool(watts) and max(watts) < LOW_WATTAGE_FLOOR
+
+
 def gnews(query):
     return "https://news.google.com/rss/search?q=" + urllib.parse.quote(query) + "&hl=ja&gl=JP&ceid=JP:ja"
 
@@ -359,6 +379,8 @@ def main(out_path):
                 if feed.get("subcat") == "kobe_shimbun" and not is_life_impact(title):
                     continue
                 if feed.get("subcat") == "journal" and is_too_far_east(title):
+                    continue
+                if feed.get("subcat") == "power_semi" and is_low_wattage(title):
                     continue
                 result[feed["cat"]].append({
                     "title": title,
