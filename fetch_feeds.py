@@ -105,11 +105,17 @@ BIGNEWS_OTHER_APPLIANCE_QUERY = (
 # Power semiconductor (SiC/GaN) progress -- the core component behind IH
 # inverter efficiency and cost, tracked across the whole industry (not just
 # appliance makers) since most of the innovation happens upstream at chip
-# makers.
+# makers. Only IH-relevant power levels wanted -- low-wattage consumer gear
+# (phone/laptop chargers, power banks) using the same chip tech is excluded,
+# not just low-value press noise.
+# NB: Google News silently drops exclude terms once the query string gets
+# too long (observed cutoff around ~150-153 chars for this query) -- stay at
+# 9 "-term" excludes max here, swapping out the least case-by-case useful
+# one rather than just appending, or new excludes silently do nothing.
 BIGNEWS_POWER_SEMI_QUERY = (
     "(SiC OR GaN OR 炭化ケイ素 OR 窒化ガリウム OR パワー半導体 OR パワーデバイス) "
     "(開発 OR 量産 OR 新製品 OR 性能向上 OR 採用 OR 技術) "
-    "-NEDO -補助金 -市場規模 -市場レポート -QYResearch -敵対的 -タイムセール -教科書 -イベント開催"
+    "-NEDO -補助金 -市場規模 -市場レポート -QYResearch -敵対的 -タイムセール -教科書 -充電器"
 )
 # Crystallized-glass / ceramic top-plate material technology -- the other
 # core IH component. Niche and low-frequency by nature (material science for
