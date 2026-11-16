@@ -1,12 +1,5 @@
 [
   {
-    "title": "Baseus、AVS対応の単ポートGaN充電器を発売 - 60W",
-    "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNS2M3ZGlVUE81X2VEMEU4elZlTGtmM3NpaUowcW5yTXZrNURlY3RnME8yenRleVBvODkta2ZBcXVNRUE3VnVJbkxBOEFZTV9YRWMtbTZiTG8zMEtRZU0ycFdseG5oQVhFVk1fem56OE5kdzcyaG9tWDZjOGV6UDFKaVFzNkhWbUVlTlR6ZVZlMzFOYnFqT3VoMg?oc=5",
-    "date": "2026-11-15",
-    "source": "Mezha.net",
-    "_subcat": "power_semi"
-  },
-  {
     "title": "保証範囲・期間や、10年延長保証の必要性を正しく理解！給湯器の工事保証について解説したブログ記事を、安田工務店が公開",
     "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE4xQTlWRURfN2tQLWwwWDVyTXBiX0NBOU41Z0RMNmM0SVhBRVA4SFRuOEozTG1IZHdqNlhaaWZDOHZSbHQxekdDT3pEajI1MnBOTG1Db0t6RXBuQVk?oc=5",
     "date": "2026-11-13",
@@ -35,10 +28,10 @@
     "_subcat": "product"
   },
   {
-    "title": "海外の充電はこれ一つ 累計500万個の実績を誇る 変換プラグ＋極薄GaN充電器セット 『Globalite USB30Wα』11/16発売",
-    "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE5aVE9RbGtabVpYbjNuNlUyeENZX05qU0xUWHRsZjc5eXZzak9JYVU4RDhRLUgyanBRN1FRNVhDN2wwSnZXQm9VWnNlYktRTG4wVWhnYnBvdWFBN0lMYVdqZ2l6YjRxaGJ1?oc=5",
-    "date": "2026-11-12",
-    "source": "ニコニコニュース",
+    "title": "1200V縦型GaNで800V→6Vの20kW級電源、onsemi：electronica 2026",
+    "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTE9wQ00wS29fcXlhSlM0Z2dVM1ByYmRMcHI2aHNpb1JNdXB3elZXZVpvS3FLRzQ5WTVvSmJIMjRZOEhNSmp1c3pKRjMxWDZWUThUdGxEOERtZzFjMGotMHJKTFZPVm5PSlRBSXJ4OC0yZw?oc=5",
+    "date": "2026-11-13",
+    "source": "EE Times Japan",
     "_subcat": "power_semi"
   },
   {
@@ -46,13 +39,6 @@
     "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTE9mUUtPMGljU1AwVFJMN1hrZFN0bGRKWWQ5V2Mzd2JJUDNEWVdlNHVhdGwyWVhHZkYyYlgwcUpDNmZrOFVWYWsxLW1aRUxfNkxDRFNLODRPcVBGckdyWl9rbHJnaDZKTkhYUlJfWEJIYw?oc=5",
     "date": "2026-11-12",
     "source": "EE Times Japan",
-    "_subcat": "power_semi"
-  },
-  {
-    "title": "変換プラグと極薄GaN充電器のセット『Globalite USB30Wα』が11月16日発売！ 世界200カ国対応",
-    "link": "https://news.google.com/rss/articles/CBMiakFVX3lxTE1oWGFvTDk0Xy13WFNyWW5GZlRuUTIySHF5dnprTzRqWGd4VmZ2c2I4MHh2M3VwY050RzhHZmV4WkhNTTAyWURBQVRSMHd2b2daOXR2dkRfLXlhalp2YTVJWnA3OVQ0QUlCbGc?oc=5",
-    "date": "2026-11-12",
-    "source": "AppBank",
     "_subcat": "power_semi"
   },
   {
@@ -68,6 +54,13 @@
     "date": "2026-11-12",
     "source": "日経BP",
     "_subcat": "gas_tech"
+  },
+  {
+    "title": "独インフィニオン、世界初の300ミリのSiCパワー半導体を実用製造 EV・AI向け供給拡大へ",
+    "link": "https://news.google.com/rss/articles/CBMiUkFVX3lxTFA2UlRNeUVZRG1fZEd0TGxLLWZnVlFxSVdrUlBHZWQ4dDdpT1Rpa1poVGFfSm9vamt5WnZsdlliMktNUzBiM0lOZXVwY25xMlZzS3c?oc=5",
+    "date": "2026-11-12",
+    "source": "電波新聞デジタル",
+    "_subcat": "power_semi"
   },
   {
     "title": "Vertiv、AIデータセンター向けパワー半導体の供給拡大でInfineonと提携",
@@ -301,11 +294,5 @@
     "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE44TG9qM2ZoaVRlOVgtSUNoZ0xseG1ualhmNkVMamloQXEyQXVpMlZhd2JIOHoxMHZxLTRZbEVFV1Q0ZmlWeW05cDhwTmp5TGV3NlpOdlQzZHRLU0M4c0x6OWlpREtvWGZNNjdDMU40R3hvZw?oc=5",
     "date": "2026-10-17",
     "source": "Infoseek"
-  },
-  {
-    "title": "1台16役！ 次世代の自動調理家電「マルチグリルクッカー GRISIA」 11月発売 (BCN)",
-    "link": "https://news.google.com/rss/articles/CBMijgFBVV95cUxPQkVfeUVVd0RFRGYycHU3aGN1RXVmY2FFRHdJQVotN0ZSLXdOY25QajNNSDNOSWR5c0FuQzVRZExSbkdjc25laHA4ZFpJcHpUc2pGclpYV2FvNU03N3VNb1JfbVkxeldHQVFHTlh0ankwb3REYjEwdVcyV2VaWkJFSDRfcTlzUE9BVWZRYnp3?oc=5",
-    "date": "2026-10-16",
-    "source": "Yahoo!ニュース"
   }
 ]
