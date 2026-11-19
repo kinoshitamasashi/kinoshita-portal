@@ -37,9 +37,15 @@ jobs:
       - name: Splice TV previews into index.html
         run: python update_tv_preview.py index.html tv_preview.json
 
+      - name: Fetch business magazine features
+        run: python fetch_magazine_features.py magazine_features.json
+
+      - name: Splice magazine features into index.html
+        run: python update_magazine_features.py index.html magazine_features.json
+
       - name: Commit and push if changed
         run: |
-          rm -f feed_data.json tv_preview.json
+          rm -f feed_data.json tv_preview.json magazine_features.json
           if git diff --quiet -- index.html big_news_state.json archive; then
             echo "No changes."
             exit 0
