@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 Fetches the curated RSS/RDF feeds directly over HTTP and writes feed_data.json
@@ -152,6 +152,19 @@ BIGNEWS_GAS_TECH_QUERY = (
     "ガスコンロ (新技術 OR 技術開発 OR 特許 OR イノベーション OR 次世代) "
     + BIGNEWS_NOISE_EXCLUDE + " -キャンプ -アウトドア -BBQ -写真集"
 )
+# Named competitor / adjacent-industry makers flagged by example (LIXIL
+# building-material pricing, Cleanup earnings, Hitachi GLS product
+# launches) as worth surfacing on ANY business news -- unlike the queries
+# above this is deliberately not restricted to engineering content, since
+# a named maker's business moves matter here regardless of topic. The
+# company list is expected to grow as more examples come in; add a name to
+# BIGNEWS_COMPETITOR_COMPANIES rather than writing a new query each time.
+BIGNEWS_COMPETITOR_COMPANIES = ["LIXIL", "クリナップ", "日立GLS", "日立グローバルライフソリューションズ"]
+BIGNEWS_COMPETITOR_QUERY = (
+    "(" + " OR ".join(BIGNEWS_COMPETITOR_COMPANIES) + ") "
+    "(決算 OR 値上げ OR 新製品 OR 発売 OR 発表 OR 業績) "
+    "-コンテスト -児童 -青少年 -ホットストック -企業情報 -決算情報"
+)
 TOC_QUERY = "制約理論 OR ゴールドラット OR スループット会計 OR 制約条件理論"
 BIZBOOK_QUERY = "ビジネス書 (ランキング OR ベストセラー OR 書評) -俳優 -女優 -アイドル"
 RETAIL_QUERY = "家電量販店 (新業態 OR ビジネスモデル OR 新事業 OR 事業変革)"
@@ -258,6 +271,7 @@ FEEDS = [
     {"url": gnews(BIGNEWS_RECALL_QUERY), "source": None, "cat": "big_news", "subcat": "recall"},
     {"url": gnews(BIGNEWS_GAS_PRODUCT_QUERY), "source": None, "cat": "big_news", "subcat": "gas_product"},
     {"url": gnews(BIGNEWS_GAS_TECH_QUERY), "source": None, "cat": "big_news", "subcat": "gas_tech"},
+    {"url": gnews(BIGNEWS_COMPETITOR_QUERY), "source": None, "cat": "big_news", "subcat": "competitor"},
     {"url": gnews(TOC_QUERY), "source": None, "cat": "toc", "subcat": "core"},
     {"url": gnews(BIZBOOK_QUERY), "source": None, "cat": "toc", "subcat": "book"},
     {"url": gnews(WORKSTYLE_QUERY), "source": None, "cat": "toc", "subcat": "worklife"},
@@ -269,7 +283,7 @@ FEEDS = [
     {"url": "https://kobe-journal.com/archives/tag/%E9%96%8B%E5%BA%97%EF%BC%8F%E3%82%AA%E3%83%BC%E3%83%97%E3%83%B3/feed/", "source": "神戸ジャーナル", "cat": "local_news", "subcat": "journal"},
 ]
 
-TOP_N = {"appliance": 22, "ai": 8, "magazine": 18, "food": 17, "rock": 15, "ih_focus": 20, "big_news": 35, "toc": 21, "policy": 15, "local_news": 18}
+TOP_N = {"appliance": 22, "ai": 8, "magazine": 18, "food": 17, "rock": 15, "ih_focus": 20, "big_news": 39, "toc": 21, "policy": 15, "local_news": 18}
 
 # Some categories blend subtopics with very different publish frequency (a
 # plain recency sort lets the frequent one crowd the rare one out entirely),
@@ -284,7 +298,7 @@ SUBCAT_RESERVED = {
     "big_news": {
         "product": 5, "tech": 4, "tech_global": 2, "other_appliance": 4,
         "power_semi": 3, "glass": 1, "energy_shift": 2, "recall": 2,
-        "gas_product": 3, "gas_tech": 2,
+        "gas_product": 3, "gas_tech": 2, "competitor": 4,
     },
 }
 
