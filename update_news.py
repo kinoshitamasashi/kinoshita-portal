@@ -46,7 +46,7 @@ BIGNEWS_DISPLAY_CAP = 20
 # fetch-side retention pool -- otherwise a quiet week for IH-specific
 # subcats could still crowd gas items out of the displayed top 20 by
 # pure recency.
-BIGNEWS_DISPLAY_RESERVED = {"gas_product": 2, "gas_tech": 1}
+BIGNEWS_DISPLAY_RESERVED = {"gas_product": 2, "gas_tech": 1, "competitor": 3}
 
 
 def apply_bignews_display_reservation(items, reserved, cap):
